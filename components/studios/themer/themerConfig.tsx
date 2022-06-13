@@ -16,7 +16,7 @@ import {
   useColorScheme,
 } from 'sanity'
 
-import _workspaces from 'sanity.config'
+import workspaces from 'sanity.config'
 
 import {
   getColorConfigsFromImagePalette,
@@ -27,9 +27,6 @@ import {
 
 import useListeningQuery from 'hooks/useListeningQuery'
 import ImagePalettePreview from 'components/ImagePalettePreview'
-
-// Exclude studios that we can't render, like the ESM one that lives outside next
-const workspaces = _workspaces.filter(workspace => workspace.name !== 'studio-on-demand')
 
 type PreviewPaneProps = {
   documentId: string
