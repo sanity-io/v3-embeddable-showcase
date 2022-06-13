@@ -1,4 +1,4 @@
-import {config as blogConfig} from 'components/studios/blog'
+import { config as blogConfig } from 'components/studios/blog'
 import StudioPage from 'components/StudioPage'
 import { useMemo } from 'react'
 import { Studio, createConfig } from 'sanity'

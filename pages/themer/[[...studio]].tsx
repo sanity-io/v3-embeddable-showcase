@@ -26,7 +26,7 @@ export default function ThemeStudioPage() {
     <>
       <StudioPage>
         <Studio config={config} unstable_noAuthBoundary />
-    </StudioPage>
+      </StudioPage>
       <Singularity singularity={singularity} />
     </>
   )

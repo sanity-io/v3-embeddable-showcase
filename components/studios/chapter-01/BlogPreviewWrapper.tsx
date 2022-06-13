@@ -25,7 +25,7 @@ export default function BlogPreviewWrapper({
   }, [author, client])
 
   return (
-    <div className="container p-5 mx-auto">
+    <div className="container mx-auto p-5">
       <Component
         title={title}
         slug={slug?.current}

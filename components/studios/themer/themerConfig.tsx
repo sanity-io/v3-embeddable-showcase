@@ -9,7 +9,6 @@ import {
   createConfig,
   Studio,
   type StudioProviderProps,
-  
   type SchemaType,
   type SanityDocument,
   StudioProvider,
@@ -18,7 +17,6 @@ import {
 } from 'sanity'
 
 import workspaces from 'sanity.config'
-
 
 import {
   getColorConfigsFromImagePalette,
@@ -30,9 +28,6 @@ import {
 import useListeningQuery from 'hooks/useListeningQuery'
 import ImagePalettePreview from 'components/ImagePalettePreview'
 
-// TODO themer
-
-const studios = ['wordpress', 'drupal', 'joomla', 'spotify', 'theme-studio']
 type PreviewPaneProps = {
   documentId: string
   // options?: TOptions
@@ -45,17 +40,14 @@ type PreviewPaneProps = {
   }
 }
 
-
 function PreviewStudio(props: PreviewPaneProps) {
   console.log('PreviewStudio', props)
   const history = useMagicRouter('/')
   const { scheme } = useColorScheme()
-  const { data } = useListeningQuery(
-    /* groq */`{
+  const { data } = useListeningQuery(/* groq */ `{
       "themes": *[_type == "theme" || _type == "logo"]{_id, "palette": source.asset->metadata.palette},
       "logos": *[_type == "studio"]{"_ref": logo.asset._ref, "palette": logo.asset->metadata.palette},
-    }`
-  )
+    }`)
   const themes = data?.themes
   const logos = data?.logos
   const theme = useMemo(() => {
@@ -83,17 +75,15 @@ function PreviewStudio(props: PreviewPaneProps) {
   ])
   console.warn('logos', logos)
   // console.warn({ themes, theme, logo: props.document.displayed.logo })
-  const previewConfig = useMemo(
-    () => {
-      // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
-      
-      const found = workspaces.find(workspace => workspace.name === props.documentId) || workspaces[0]
+  const previewConfig = useMemo(() => {
+    // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
 
-     
-      return {...found, title: props.document.displayed?.title}
-    },
-    [props.documentId, props.document.displayed?.title]
-  )
+    const found =
+      workspaces.find((workspace) => workspace.name === props.documentId) ||
+      workspaces[0]
+
+    return { ...found, title: props.document.displayed?.title }
+  }, [props.documentId, props.document.displayed?.title])
   const themeConfig = useMemo(() => {
     return theme?.palette
       ? getColorConfigsFromImagePalette({ palette: theme?.palette })
@@ -149,42 +139,42 @@ import { deskTool } from 'sanity/desk'
 import { types } from './themerSchema'
 
 export const config: WorkspaceOptions = {
-  basePath: '/theme-studio',
+  basePath: '/themer',
   projectId,
   dataset: process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset,
-  plugins: [deskTool({
-    title: 'Themes',
-     // /*
-    defaultDocumentNode: (S, { schemaType }) => {
-      if (schemaType === 'studio') {
-        return S.document().views([
-          S.view.form(),
-          S.view.component(PreviewStudio).title('Preview'),
-        ])
-      }
-      if (schemaType === 'theme') {
-        return S.document().views([
-          S.view.form(),
-          S.view.component(PreviewStudios).title('Preview'),
-        ])
-      }
-    },
-    structure: (S, source) => {
-      return S.list()
-        .id('root')
-        .title('Studios')
-        .items([
-          ...workspaces.map((workspace) =>
-            S.documentListItem().id(workspace.name).schemaType('studio')
-          ),
-          S.divider(),
-          S.documentTypeListItem('theme')
-            .title('Themes')
-            .icon(ControlsIcon),
-        ])
-    },
-    // */
-  })],
+  plugins: [
+    deskTool({
+      title: 'Themes',
+      // /*
+      defaultDocumentNode: (S, { schemaType }) => {
+        if (schemaType === 'studio') {
+          return S.document().views([
+            S.view.form(),
+            S.view.component(PreviewStudio).title('Preview'),
+          ])
+        }
+        if (schemaType === 'theme') {
+          return S.document().views([
+            S.view.form(),
+            S.view.component(PreviewStudios).title('Preview'),
+          ])
+        }
+      },
+      structure: (S, source) => {
+        return S.list()
+          .id('root')
+          .title('Studios')
+          .items([
+            ...workspaces.map((workspace) =>
+              S.documentListItem().id(workspace.name).schemaType('studio')
+            ),
+            S.divider(),
+            S.documentTypeListItem('theme').title('Themes').icon(ControlsIcon),
+          ])
+      },
+      // */
+    }),
+  ],
   name: 'themer',
   title: 'Themer',
   schema: { types },
