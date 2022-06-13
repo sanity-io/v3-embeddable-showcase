@@ -1,7 +1,9 @@
 import Singularity from 'components/Singularity'
 import StudioPage from 'components/StudioPage'
-import ThemeStudio from 'components/studios/themer'
+
+import { Studio } from 'sanity'
 import { useEffect, useState } from 'react'
+import config from 'sanity.config'
 
 export default function ThemeStudioPage() {
   const [singularity, setSingularity] = useState(false)
@@ -23,8 +25,8 @@ export default function ThemeStudioPage() {
   return (
     <>
       <StudioPage>
-        <ThemeStudio />
-      </StudioPage>
+        <Studio config={config} unstable_noAuthBoundary />
+    </StudioPage>
       <Singularity singularity={singularity} />
     </>
   )

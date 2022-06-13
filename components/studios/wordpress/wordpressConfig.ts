@@ -11,7 +11,5 @@ export const config: WorkspaceOptions = {
   plugins: [deskTool()],
   name: 'wordpress',
   title: 'Not Wordpress',
-  schema: {
-    types,
-  },
+  schema: { types },
 }

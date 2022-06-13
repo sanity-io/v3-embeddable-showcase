@@ -11,7 +11,5 @@ export const config: WorkspaceOptions = {
   plugins: [deskTool()],
   name: 'blog',
   title: 'Blog',
-  schema: {
-    types,
-  },
+  schema: { types },
 }
