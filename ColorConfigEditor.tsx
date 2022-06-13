@@ -3,9 +3,6 @@ import Link from 'next/link'
 import Sandbox from 'components/Sandbox'
 
 import { useId } from '@reach/auto-id'
-import Project, {
-  getConfig as getProjectConfig,
-} from 'components/studios/Project'
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import { useState, useMemo, useLayoutEffect, useEffect } from 'react'
 import styled from 'styled-components'
