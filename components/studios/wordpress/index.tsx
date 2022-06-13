@@ -1,3 +1,5 @@
+// The same as /blog, but reskinned to look like Wordpress kinda, and loads on /wp-admin
+
 import { useMemo } from 'react'
 import {
   type Config,

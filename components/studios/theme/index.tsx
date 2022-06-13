@@ -1,3 +1,5 @@
+// A super-charged studio capable of editing the color scheme of other studios and previewing them live
+
 import { Card, Code, Grid, ThemeProvider, Box } from '@sanity/ui'
 
 import { ControlsIcon, MasterDetailIcon } from '@sanity/icons'
@@ -28,6 +30,8 @@ import {
 
 import useListeningQuery from 'hooks/useListeningQuery'
 import ImagePalettePreview from 'components/ImagePalettePreview'
+
+// TODO themer 
 
 export const dataset = 'themes'
 const studios = ['wordpress', 'drupal', 'joomla', 'spotify', 'theme-studio']
