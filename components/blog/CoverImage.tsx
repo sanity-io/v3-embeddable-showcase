@@ -2,7 +2,7 @@ import cn from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 import { type Image as SanityImage } from '@sanity/types'
-import { useImageUrlBuilder } from 'hooks/useSanityClient'
+import { urlForImage } from 'hooks/useSanityClient'
 
 export default function CoverImage({
   title,
@@ -13,8 +13,6 @@ export default function CoverImage({
   title?: string
   image?: SanityImage
 }) {
-  // @ts-expect-error: Figure out if it really matters if the image-builder knows the dataset and projectId
-  const urlForImage = useImageUrlBuilder()
   const image = source ? (
     <div
       className={cn('shadow-small', {
@@ -26,13 +24,7 @@ export default function CoverImage({
         width={2000}
         height={1000}
         alt={`Cover Image for ${title}`}
-        src={urlForImage
-          .image(source)
-          .auto('format')
-          .fit('max')
-          .height(1000)
-          .width(2000)
-          .url()}
+        src={urlForImage(source).height(1000).width(2000).url()}
       />
     </div>
   ) : (

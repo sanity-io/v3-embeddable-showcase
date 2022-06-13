@@ -1,6 +1,6 @@
 // In case an infinite recursing embeddable Studio loop happens it's important ot protect
 // against accidental singularities
-import { animate, spring, stagger } from 'motion'
+import { timeline, stagger } from 'motion'
 import { Portal } from '@sanity/ui'
 import { useEffect, useState } from 'react'
 import { unstable_batchedUpdates } from 'react-dom'
@@ -49,6 +49,10 @@ export default function Singularity(props: { singularity: boolean }) {
     })
   }, [props.singularity])
   useEffect(() => {
+    if (typeof document !== 'undefined') {
+      // @ts-expect-error
+      window.forceSingularity = () => setSingularity(true)
+    }
     if ('requestIdleCallback' in window) {
       const cb = requestIdleCallback(() => setOpen(singularity))
       return () => cancelIdleCallback(cb)
@@ -59,59 +63,98 @@ export default function Singularity(props: { singularity: boolean }) {
   useEffect(() => {
     if (open) {
       document.body.style.background = '#000'
-      const delay = (timeout: number) =>
-        new Promise((resolve) => setTimeout(resolve, timeout))
-      const go = async () => {
-        await delay(10000)
-        animate(
-          '#user-menu,#global-presence-menu',
-          {
-            transform: [
-              'translate3d(-1px, 0, 0)',
-              ' translate3d(2px, 0, 0)',
-              'translate3d(-4px, 0, 0)',
-              ' translate3d(4px, 0, 0)',
-              'translate3d(-4px, 0, 0)',
-              ' translate3d(2px, 0, 0)',
-              'translate3d(-1px, 0, 0)',
-            ],
-          },
-          {
-            delay: stagger(0.1),
-            offset: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
-            repeat: 3,
-          }
-        )
 
-        animate(
-          '#user-menu,#global-presence-menu',
-          {
-            transform: 'translate3d(-50vw,50vh, 0) scale(0)',
-          },
-          { delay: stagger(0.1) }
-        )
-        animate(
-          '[data-studio-canvas]',
-          {
-            transform: [
-              'translate3d(-1px, 0, 0)',
-              ' translate3d(2px, 0, 0)',
-              'translate3d(-4px, 0, 0)',
-              ' translate3d(4px, 0, 0)',
-              'translate3d(-4px, 0, 0)',
-              ' translate3d(2px, 0, 0)',
-              'translate3d(-1px, 0, 0)',
-              'scale(0)',
-            ],
-          },
-          {
-            delay: stagger(0.1),
-            offset: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
-            repeat: 3,
-          }
-        )
-      }
-      go()
+      timeline(
+        [
+          [
+            '#user-menu,#global-presence-menu',
+            {
+              transform: [
+                'translate3d(-1px, 0, 0)',
+                ' translate3d(2px, 0, 0)',
+                'translate3d(-4px, 0, 0)',
+                ' translate3d(4px, 0, 0)',
+                ' translate3d(-5px, 0, 0)',
+                ' translate3d(6px, 0, 0)',
+                ' translate3d(7px, 0, 0)',
+                ' translate3d(6px, 0, 0)',
+                ' translate3d(-5px, 0, 0)',
+                ' translate3d(4px, 0, 0)',
+                'translate3d(-4px, 0, 0)',
+                ' translate3d(2px, 0, 0)',
+                'translate3d(-1px, 0, 0)',
+              ],
+            },
+            {
+              duration: 1,
+            },
+          ],
+          [
+            '#user-menu,#global-presence-menu',
+            {
+              transform: 'translate3d(-50vw,50vh, 0) scale(0)',
+            },
+            { duration: 1 },
+          ],
+          [
+            '[data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview]',
+            {
+              opacity: 0,
+              transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
+            },
+            { duration: 1 },
+          ],
+          [
+            '[data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview]',
+            {
+              opacity: 0,
+              transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
+            },
+            { duration: 1 },
+          ],
+          [
+            '[data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview]',
+            {
+              opacity: 0,
+              transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
+            },
+            { duration: 1 },
+          ],
+          [
+            '[data-studio-preview] [data-studio-preview] [data-studio-preview]',
+            {
+              opacity: 0,
+              transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
+            },
+            { duration: 1 },
+          ],
+          [
+            '[data-studio-preview] [data-studio-preview]',
+            {
+              opacity: 0,
+              transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
+            },
+            { duration: 1 },
+          ],
+          [
+            '[data-studio-preview]',
+            {
+              opacity: 0,
+              transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
+            },
+            { duration: 1 },
+          ],
+          [
+            '[data-studio-canvas]',
+            {
+              opacity: 0,
+              transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
+            },
+            { duration: 1 },
+          ],
+        ],
+        { delay: 10, defaultOptions: { easing: 'ease-in-out' } }
+      )
     }
   })
 

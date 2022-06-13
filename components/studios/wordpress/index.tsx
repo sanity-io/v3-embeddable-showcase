@@ -6,12 +6,10 @@ import {
   type StudioProviderProps,
   type WorkspaceOptions,
 } from 'sanity'
+import { projectId } from 'hooks/useSanityClient'
 import { deskTool } from 'sanity/desk'
 
 import { useBasePath } from 'hooks'
-
-import { brownPelican } from 'config/projects'
-const [projectId, dataset] = brownPelican
 
 export function createStudioConfig({
   basePath,
@@ -21,7 +19,8 @@ export function createStudioConfig({
   return createConfig({
     basePath,
     projectId,
-    dataset,
+    // @TODO: give FakePress its own dataset
+    dataset: 'staging',
     plugins: [deskTool()],
     name: 'brown-pelican',
     title: 'Wordpress',

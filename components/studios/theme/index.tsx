@@ -15,6 +15,7 @@ import {
   useColorScheme,
 } from 'sanity'
 import { createStudioConfig as getWordpressConfig } from 'components/studios/wordpress'
+import { projectId } from 'hooks/useSanityClient'
 
 import { deskTool, type PaneView } from 'sanity/desk'
 
@@ -25,11 +26,11 @@ import {
   useMagicRouter,
 } from 'hooks'
 
-import { moccasinKouprey } from 'config/projects'
 import useListeningQuery from 'hooks/useListeningQuery'
 import ImagePalettePreview from 'components/ImagePalettePreview'
-const [projectId, dataset] = moccasinKouprey
 
+// @TODO: create a "themes" dataset
+export const dataset = 'staging'
 const studios = ['wordpress', 'drupal', 'joomla', 'spotify', 'theme-studio']
 type PreviewPaneProps = {
   documentId: string
@@ -108,7 +109,7 @@ function PreviewStudio(props: PreviewPaneProps) {
   }, [theme?.palette])
   const previewStudioTheme = useCustomStudioTheme({ config: themeConfig })
   return (
-    <Card data-sanity-studio-preview height="fill">
+    <Card data-studio-preview height="fill">
       <StudioProvider
         unstable_history={history}
         config={config}

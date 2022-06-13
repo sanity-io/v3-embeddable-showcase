@@ -6,12 +6,9 @@ import {
   type StudioProviderProps,
   type WorkspaceOptions,
 } from 'sanity'
+import { projectId } from 'hooks/useSanityClient'
 
 import { deskTool } from 'sanity/desk'
-
-import { useBasePath } from 'hooks'
-import { brownPelican } from 'config/projects'
-import { createSchema } from 'sanity/_unstable'
 
 export const postType = {
   name: 'post',
@@ -49,7 +46,7 @@ export const authorType = {
 
 export const schemaTypes = [postType, authorType]
 
-const [projectId, dataset] = brownPelican
+export const dataset = 'production'
 export function createStudioConfig({
   basePath,
   ...other

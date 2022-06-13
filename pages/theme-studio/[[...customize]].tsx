@@ -9,9 +9,8 @@ export default function ThemeStudioPage() {
   useEffect(() => {
     const handler = () => {
       const maybeSingularity = document.querySelectorAll(
-        '[data-sanity-studio-preview]'
+        '[data-studio-preview]'
       )
-      console.log({ maybeSingularity })
       if (maybeSingularity.length > 3 && !singularity) {
         setSingularity(true)
       }

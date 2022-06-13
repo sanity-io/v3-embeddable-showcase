@@ -4,9 +4,9 @@ import {
   overlayDrafts,
   createClient,
   createPreviewClient,
+  projectId,
 } from 'hooks/useSanityClient'
 import { createPreviewSubscriptionHook } from 'next-sanity'
-import { burnedWalrus } from 'config/projects'
 
 const query = /* groq */ `*[_type == "post"] | order(date desc, _updatedAt desc) {
   _id,
@@ -19,7 +19,7 @@ const query = /* groq */ `*[_type == "post"] | order(date desc, _updatedAt desc)
   "author": author->{name, picture},
 }`
 
-const [projectId, dataset] = burnedWalrus
+const dataset = 'production'
 const usePreviewSubscription = createPreviewSubscriptionHook({
   projectId,
   dataset,
@@ -44,8 +44,8 @@ export default function Index({
 
 export async function getStaticProps({ preview = false }) {
   const client = preview
-    ? createPreviewClient({ projectId, dataset })
-    : createClient({ projectId, dataset })
+    ? createPreviewClient({ dataset })
+    : createClient({ dataset })
 
   const allPosts = overlayDrafts(await client.fetch(query))
   return {

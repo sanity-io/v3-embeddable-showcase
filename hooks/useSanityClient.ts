@@ -2,17 +2,19 @@ import createImageUrlBuilder from '@sanity/image-url'
 import { useMemo, useState } from 'react'
 import createSanityClient from '@sanity/client'
 
+export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || ''
+
 // Only use the API CDN when in the browser and in production mode
 function createClientConfig({
   dataset,
-  projectId,
 }: {
-  projectId: string
   dataset: string
   useCdn?: boolean
 }) {
   return {
     dataset,
+    // Hardcoding on purpose, dot-env is the way
+    // If you *really must* use another project id, use the client.withConfig({projectId: ''}) technique
     projectId,
     useCdn:
       typeof document === 'undefined' && process.env.NODE_ENV === 'production',
@@ -20,14 +22,8 @@ function createClientConfig({
   }
 }
 
-export function createClient({
-  projectId,
-  dataset,
-}: {
-  projectId: string
-  dataset: string
-}) {
-  const clientConfig = createClientConfig({ projectId, dataset })
+export function createClient({ dataset }: { dataset: string }) {
+  const clientConfig = createClientConfig({ dataset })
   return createSanityClient(clientConfig)
 }
 
@@ -36,7 +32,6 @@ export function createPreviewClient({
   ...config
 }: {
   token?: string
-  projectId: string
   dataset: string
 }) {
   if (!token) {
@@ -69,18 +64,9 @@ export function filterDataToSingleItem(data = [], preview = false) {
   return data[0]
 }
 
-export function useImageUrlBuilder({
-  dataset,
-  projectId,
-}: {
-  dataset: string
-  projectId: string
-}) {
-  return useMemo(
-    () => createImageUrlBuilder({ dataset, projectId }),
-    [dataset, projectId]
-  )
-}
+const imageBuilder = createImageUrlBuilder({ projectId, dataset: 'production' })
+export const urlForImage = (source: Parameters<typeof imageBuilder.image>[0]) =>
+  imageBuilder.image(source).auto('format').fit('max')
 
 export function overlayDrafts(docs: any) {
   const documents = docs || []
@@ -96,7 +82,3 @@ export function overlayDrafts(docs: any) {
 
   return Array.from(overlayed.values())
 }
-
-//const movies = await getClient().fetch(
-/* groq */ //`*[_type == "movie"]{ _id, title, slug }`
-//);

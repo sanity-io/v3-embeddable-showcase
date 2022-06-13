@@ -11,9 +11,7 @@ import {
 import { deskTool } from 'sanity/desk'
 
 import { useBasePath } from 'hooks'
-
-import { fuchsiaDeer } from 'config/projects'
-const [projectId, dataset] = fuchsiaDeer
+import { projectId } from 'hooks/useSanityClient'
 
 export function getConfig({
   basePath,
@@ -23,7 +21,8 @@ export function getConfig({
   return createConfig({
     basePath,
     projectId,
-    dataset,
+    // @TODO give its own dataset
+    dataset: 'staging',
     plugins: [deskTool()],
     name: 'midnight-pegasus',
     title: 'Studio V3',

@@ -231,7 +231,11 @@ function IndexPage() {
         </Grid>
         {RENDER_INLINE && (
           <Grid className="h-[50vh] gap-px" columns={splitScreen ? 2 : 1}>
-            <StudioProvider unstable_history={history} config={studioConfig} unstable_noAuthBoundary>
+            <StudioProvider
+              unstable_history={history}
+              config={studioConfig}
+              unstable_noAuthBoundary
+            >
               <ThemeProvider
                 key="auto"
                 scheme={splitScreen ? 'light' : undefined}
@@ -283,7 +287,11 @@ function IndexPage() {
               </>
             }
           >
-            <StudioProvider unstable_history={history} config={studioConfig} unstable_noAuthBoundary>
+            <StudioProvider
+              unstable_history={history}
+              config={studioConfig}
+              unstable_noAuthBoundary
+            >
               <StudioLayout />
             </StudioProvider>
           </BottomSheetStudio>
@@ -316,7 +324,11 @@ function IndexPage() {
               </>
             }
           >
-            <StudioProvider unstable_history={history} config={studioConfig} unstable_noAuthBoundary>
+            <StudioProvider
+              unstable_history={history}
+              config={studioConfig}
+              unstable_noAuthBoundary
+            >
               <ThemeProvider theme={previewTheme}>
                 <StudioLayout />
               </ThemeProvider>
@@ -355,7 +367,11 @@ function IndexPage() {
               className="h-[number:var(--rsbs-overlay-h,100%)] gap-px"
               columns={2}
             >
-              <StudioProvider unstable_history={history} config={studioConfig} unstable_noAuthBoundary>
+              <StudioProvider
+                unstable_history={history}
+                config={studioConfig}
+                unstable_noAuthBoundary
+              >
                 <ThemeProvider scheme="light" theme={splitScreenTheme}>
                   <StudioLayout />
                 </ThemeProvider>
