@@ -16,7 +16,7 @@ export default function Layout({
         <Alert preview={preview} />
         <main>{children}</main>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
