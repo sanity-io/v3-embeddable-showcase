@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useClient } from "sanity";
 
-export default function BlogPreviewWrapper({ document: { displayed: { title, date, slug, excerpt, coverImage, author}}, Component }) {
+export default function BlogPreviewWrapper({ document: { displayed: { title, date, slug, excerpt, coverImage, author, content}}, Component }) {
     const client = useClient();
 
     const [resolvedAuthor, setResolvedAuthor] = useState();
@@ -16,6 +16,6 @@ export default function BlogPreviewWrapper({ document: { displayed: { title, dat
     
     console.log(resolvedAuthor)
     return <div className="container mx-auto p-5">
-            <Component title={title} slug={slug.current} date={date} excerpt={excerpt} coverImage={coverImage} author={resolvedAuthor} />
+            <Component title={title} slug={slug.current} date={date} excerpt={excerpt} coverImage={coverImage} author={resolvedAuthor} content={content} />
         </div>
 }
