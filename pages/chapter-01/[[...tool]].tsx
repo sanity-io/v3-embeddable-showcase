@@ -14,8 +14,7 @@ import { cover } from 'polished'
 import PostBody from 'components/blog/PostBody'
 
 const MorePreview = (props) => {
-
-  return <MoreStories posts={[prop]} />
+  return <MoreStories posts={[props]} />
 }
 
 const DetailPreview = ({title, date, slug, excerpt, coverImage, author, content}) => {

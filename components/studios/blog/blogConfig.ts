@@ -2,7 +2,7 @@ import { type Config } from 'sanity'
 import { projectId, dataset } from 'hooks/useSanityClient'
 
 import { deskTool } from 'sanity/desk'
-import { types } from './schema'
+import { types } from './blogSchema'
 
 export const config: Partial<Config> = {
   basePath: '/studio',
