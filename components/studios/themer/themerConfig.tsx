@@ -86,8 +86,8 @@ function PreviewStudio(props: PreviewPaneProps) {
   const previewConfig = useMemo(
     () => {
       // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
-      debugger
-      const found = config.find(workspace => workspace.name === props.documentId) || config[0]
+      
+      const found = workspaces.find(workspace => workspace.name === props.documentId) || workspaces[0]
 
      
       return {...found, title: props.document.displayed?.title}
@@ -104,6 +104,7 @@ function PreviewStudio(props: PreviewPaneProps) {
     <Card data-studio-preview height="fill">
       <StudioProvider
         unstable_history={history}
+        // @ts-expect-error
         config={previewConfig}
         unstable_noAuthBoundary
       >

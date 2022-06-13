@@ -18,17 +18,25 @@ import PostHeader from 'components/blog/PostHeader'
 import { cover } from 'polished'
 import PostBody from 'components/blog/PostBody'
 
+// @ts-expect-error
 const MorePreview = (props) => {
   return <MoreStories posts={[props]} />
 }
 
 const DetailPreview = ({
+  // @ts-expect-error
   title,
+  // @ts-expect-error
   date,
+  // @ts-expect-error
   slug,
+  // @ts-expect-error
   excerpt,
+  // @ts-expect-error
   coverImage,
+  // @ts-expect-error
   author,
+  // @ts-expect-error
   content,
 }) => {
   return (

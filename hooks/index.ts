@@ -22,13 +22,7 @@ import {
   parseColor,
   rgbToHex,
 } from '@sanity/ui'
-import {
-  defaultTheme,
-  ColorSchemeProvider,
-  StudioProvider,
-  StudioLayout,
-  ImagePalette,
-} from 'sanity'
+import { defaultTheme, ImagePalette } from 'sanity'
 
 // @TODO use this hook to look up studios in the workspaces array
 export function useBasePath() {

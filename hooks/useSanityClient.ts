@@ -22,7 +22,7 @@ export function createPreviewClient({
   token = process.env.SANITY_API_TOKEN,
 }: {
   token?: string
-}) {
+} = {}) {
   if (!token) {
     throw new Error('No API token provided to the Sanity Preview client')
   }

@@ -1,6 +1,6 @@
 import StudioPage from 'components/StudioPage'
 import { useMemo } from 'react'
-import { Studio, createConfig } from 'sanity'
+import { Studio } from 'sanity'
 import config from 'sanity.config'
 
 import { useBasePath } from 'hooks'

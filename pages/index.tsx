@@ -5,9 +5,9 @@ import {
   createClient,
   createPreviewClient,
   projectId,
+  dataset,
 } from 'hooks/useSanityClient'
 import { createPreviewSubscriptionHook } from 'next-sanity'
-import { dataset } from 'components/studios/blog'
 
 const query = /* groq */ `*[_type == "post"] | order(date desc, _updatedAt desc) {
   _id,
@@ -43,9 +43,7 @@ export default function Index({
 }
 
 export async function getStaticProps({ preview = false }) {
-  const client = preview
-    ? createPreviewClient({ dataset })
-    : createClient({ dataset })
+  const client = preview ? createPreviewClient() : createClient()
 
   const allPosts = overlayDrafts(await client.fetch(query))
   return {

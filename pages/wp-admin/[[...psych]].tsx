@@ -1,10 +1,12 @@
-import SanityCanvas from 'components/StudioPage'
-import Wordpress from 'components/studios/wordpress'
+import StudioPage from 'components/StudioPage'
+import { useMemo } from 'react'
+import { Studio } from 'sanity'
+import config from 'sanity.config'
 
-export default function WordpressPage() {
+export default function WordpressRoute() {
   return (
-    <SanityCanvas>
-      <Wordpress />
-    </SanityCanvas>
+    <StudioPage>
+      <Studio config={config} unstable_noAuthBoundary />
+    </StudioPage>
   )
 }
