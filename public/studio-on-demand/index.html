@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <link rel="icon" type="image/svg" href="/sanity.svg" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -27,55 +28,34 @@
   <body>
     <div id="sanity"></div>
     <script type="module">
-      import renderStudio from 'https://unpkg.com/@stipsan/midnight-pegasus'
+      import { post, author } from './schema.mjs'
+      import {history} from './history.mjs'
+      import { name, projectId, dataset } from './config.mjs'
+      import {sanity} from './deps.mjs'
+      
+      const {createConfig, renderStudio, deskTool} = sanity
 
-      const postType = {
-        name: 'post',
-        type: 'document',
-        title: 'Post',
-        fields: [
-          { name: 'title', title: 'Title', type: 'string' },
-          {
-            name: 'slug',
-            title: 'Slug',
-            type: 'slug',
-            options: { source: 'title' },
-          },
-          {
-            name: 'content',
-            title: 'Content',
-            type: 'array',
-            of: [{ type: 'block' }],
-          },
-          { name: 'excerpt', title: 'Excerpt', type: 'string' },
-          { name: 'coverImage', title: 'Cover Image', type: 'image' },
-          { name: 'date', title: 'Date', type: 'datetime' },
-          {
-            name: 'author',
-            title: 'Author',
-            type: 'reference',
-            to: [{ type: 'author' }],
-          },
-        ],
-      }
-      const authorType = {
-        name: 'author',
-        type: 'document',
-        title: 'Author',
-        fields: [
-          { name: 'name', title: 'Name', type: 'string' },
-          { name: 'picture', title: 'Picture', type: 'image' },
-        ],
-      }
-      const types = [postType, authorType]
-
-      renderStudio(document.getElementById('sanity'), {
-        basePath: '/studio-on-demand/index.html',
+      const config = {
+        basePath: '/',
         name: 'Sanity Studio On-Demand',
         projectId: 'rkndubl4',
         dataset: 'production',
-        schema: { types },
-      })
+        schema: { types: [post, author] },
+        plugins: [deskTool()],
+      }
+      const studioConfig = createConfig(config)
+      const studio = renderStudio(document.getElementById('sanity'), studioConfig, {unstable_history: history, unstable_noAuthBoundary: true})
+
+      window.updateStudio = ({config: _config, ...overrides} = {}) => {
+        studio.unstable_patch(_config ? {config: createConfig({...config, ..._config}), ...overrides} : {config: studioConfig, ...overrides})
+      }
+      console.group('Hi there!')
+      console.log('This is an instance of Sanity Studio V3 running natively on ESM URL imports, no bundling involved or any loading runtimes.')
+      console.log('All native ✨')
+      console.log('You can call `updateStudio` in your console to quickly try out different options.')
+      console.log('Try changing the name of the studio by calling `updateStudio({name: "I did the thing 🥳"})`')
+      console.debug(config)
+      console.groupCollapsed()
     </script>
   </body>
 </html>
