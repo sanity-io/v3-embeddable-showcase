@@ -15,5 +15,7 @@ export default function BlogPreviewWrapper({ document: { displayed: { title, dat
     }, [author, client])
     
     console.log(resolvedAuthor)
-    return <Component title={title} slug={slug.current} date={date} excerpt={excerpt} coverImage={coverImage} author={resolvedAuthor} />
+    return <div className="container mx-auto p-5">
+            <Component title={title} slug={slug.current} date={date} excerpt={excerpt} coverImage={coverImage} author={resolvedAuthor} />
+        </div>
 }
