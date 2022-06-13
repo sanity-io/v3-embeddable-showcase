@@ -1,10 +1,16 @@
-import Project from 'components/studios/Project'
+import { createStudioConfig } from 'components/studios/blog'
 import StudioPage from 'components/StudioPage'
+import { useMemo } from 'react'
+import { Studio } from 'sanity'
 
-export default function ProjectPage() {
+import { useBasePath } from 'hooks'
+
+export default function StudioRoute() {
+  const basePath = useBasePath()
+  const config = useMemo(() => createStudioConfig({ basePath }), [basePath])
   return (
     <StudioPage>
-      <Project />
+      <Studio config={config} unstable_noAuthBoundary />
     </StudioPage>
   )
 }

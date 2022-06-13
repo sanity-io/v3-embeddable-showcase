@@ -31,7 +31,7 @@ import {
 import useListeningQuery from 'hooks/useListeningQuery'
 import ImagePalettePreview from 'components/ImagePalettePreview'
 
-// TODO themer 
+// TODO themer
 
 export const dataset = 'themes'
 const studios = ['wordpress', 'drupal', 'joomla', 'spotify', 'theme-studio']

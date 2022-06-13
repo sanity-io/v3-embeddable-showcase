@@ -10,7 +10,7 @@ import {
 } from 'sanity'
 import { projectId } from 'hooks/useSanityClient'
 import { deskTool } from 'sanity/desk'
-import {dataset} from 'components/studios/blog'
+import { dataset } from 'components/studios/blog'
 
 import { useBasePath } from 'hooks'
 

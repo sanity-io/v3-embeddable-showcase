@@ -1,5 +1,5 @@
 import Singularity from 'components/Singularity'
-import SanityCanvas from 'components/StudioPage'
+import StudioPage from 'components/StudioPage'
 import ThemeStudio from 'components/studios/theme'
 import { useEffect, useState } from 'react'
 
@@ -22,9 +22,9 @@ export default function ThemeStudioPage() {
 
   return (
     <>
-      <SanityCanvas>
+      <StudioPage>
         <ThemeStudio />
-      </SanityCanvas>
+      </StudioPage>
       <Singularity singularity={singularity} />
     </>
   )

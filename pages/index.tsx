@@ -7,7 +7,7 @@ import {
   projectId,
 } from 'hooks/useSanityClient'
 import { createPreviewSubscriptionHook } from 'next-sanity'
-import {dataset} from 'components/studios/blog'
+import { dataset } from 'components/studios/blog'
 
 const query = /* groq */ `*[_type == "post"] | order(date desc, _updatedAt desc) {
   _id,
