@@ -14,7 +14,10 @@ export function init(mountNode) {
     schema: { types: [post, author] },
     plugins: [deskTool()],
   }
-  const studioConfig = createConfig(config)
+  const studioConfig = createConfig([
+    config,
+    // { ...config, name: 'blog', basePath: '/desk' },
+  ])
   const studio = renderStudio(mountNode, studioConfig, {
     unstable_history: history,
     unstable_noAuthBoundary: true,

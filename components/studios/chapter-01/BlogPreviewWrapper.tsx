@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { useClient } from 'sanity'
 
 export default function BlogPreviewWrapper({
+  // @ts-expect-error
   document: { displayed },
+  // @ts-expect-error
   Component,
 }) {
   const { title, date, slug, excerpt, coverImage, author, content } = displayed
@@ -23,7 +25,7 @@ export default function BlogPreviewWrapper({
   }, [author, client])
 
   return (
-    <div className="container mx-auto p-5">
+    <div className="container p-5 mx-auto">
       <Component
         title={title}
         slug={slug?.current}

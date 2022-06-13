@@ -1,7 +1,7 @@
-import { createStudioConfig } from 'components/studios/blog'
+import {config as blogConfig} from 'components/studios/blog'
 import StudioPage from 'components/StudioPage'
 import { useMemo } from 'react'
-import { Studio } from 'sanity'
+import { Studio, createConfig } from 'sanity'
 
 import { useBasePath } from 'hooks'
 import {
@@ -89,7 +89,8 @@ export default function StudioRoute() {
   const basePath = useBasePath()
   const config = useMemo(
     () =>
-      createStudioConfig({
+      createConfig({
+        ...blogConfig,
         basePath,
         plugins: [deskTool({ defaultDocumentNode })],
       }),

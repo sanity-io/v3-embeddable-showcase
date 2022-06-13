@@ -16,7 +16,6 @@ import {
   StudioLayout,
   useColorScheme,
 } from 'sanity'
-import { createStudioConfig as getWordpressConfig } from 'components/studios/wordpress'
 import { projectId } from 'hooks/useSanityClient'
 
 import { deskTool, type PaneView } from 'sanity/desk'
@@ -259,6 +258,8 @@ export function getConfig({
     },
   })
 }
+
+export const config = getConfig({basePath: '/theme-studio'})
 
 export default function StudioPage(
   props: Omit<Partial<StudioProviderProps>, 'children'>
