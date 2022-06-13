@@ -2,15 +2,15 @@ import { type WorkspaceOptions } from 'sanity'
 import { projectId, dataset } from 'hooks/useSanityClient'
 
 import { deskTool } from 'sanity/desk'
-import { types } from './blogSchema'
+import { types } from './wordpressSchema'
 
 export const config: WorkspaceOptions = {
-  basePath: '/studio',
+  basePath: '/wp-admin',
   projectId,
   dataset,
   plugins: [deskTool()],
-  name: 'blog',
-  title: 'Blog',
+  name: 'wordpress',
+  title: 'Not Wordpress',
   schema: {
     types,
   },

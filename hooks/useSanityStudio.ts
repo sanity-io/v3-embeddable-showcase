@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { type Config } from 'sanity'
+import { useState, useEffect, useMemo } from 'react'
 import { usePrefersDark, type ThemeColorSchemeKey } from '@sanity/ui'
 
 export function useColorScheme() {

@@ -1,3 +1,4 @@
+//@TODO would be nice if there were a way for the ESM Studio to stay in sync with this, maybe using an api/schemas or :think:
 export const postType = {
   name: 'post',
   type: 'document',
