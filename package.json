@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "vercel dev",
     "format": "prettier --write .",
     "lint": "next lint",
-    "start": "next start"
+    "start": "vercel start"
   },
   "prettier": {
     "semi": false,

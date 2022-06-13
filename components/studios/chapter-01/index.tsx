@@ -97,7 +97,7 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (
 }
 
 export const config: WorkspaceOptions = {
-  basePath: '/chapter-01',
+  basePath: '/studio/chapter-01',
   projectId,
   dataset,
   plugins: [deskTool({ defaultDocumentNode })],
