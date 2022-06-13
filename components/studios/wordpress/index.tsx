@@ -109,5 +109,5 @@ export default function StudioPage(
     [basePath]
   )
 
-  return <Studio config={config} {...props} />
+  return <Studio unstable_noAuthBoundary config={config} {...props} />
 }

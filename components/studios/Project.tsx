@@ -59,5 +59,5 @@ export default function Project(
     [basePath]
   )
 
-  return <Studio config={config} {...props} />
+  return <Studio unstable_noAuthBoundary config={config} {...props} />
 }
