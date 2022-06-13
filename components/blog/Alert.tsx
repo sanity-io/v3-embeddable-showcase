@@ -24,8 +24,7 @@ export default function Alert({ preview }: { preview?: boolean }) {
             </>
           </div>
         ) : (
-          <>
-          </>
+          <></>
         )}
       </Container>
     </div>

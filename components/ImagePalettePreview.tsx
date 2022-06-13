@@ -1,7 +1,7 @@
 import { black, white } from '@sanity/color'
 import Link from 'next/link'
 import Sandbox from 'components/Sandbox'
-import { createStudioConfig as getWordpressConfig } from 'components/studios/wordpress'
+import getWordpressConfig from 'sanity.config'
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import React, {
   useState,
@@ -13,7 +13,6 @@ import React, {
 import styled from 'styled-components'
 import {
   defaultTheme,
-  ColorSchemeProvider,
   StudioProvider,
   StudioLayout,
   useWorkspace,

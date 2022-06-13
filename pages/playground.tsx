@@ -14,7 +14,6 @@ import React, {
 import styled from 'styled-components'
 import {
   defaultTheme,
-  ColorSchemeProvider,
   StudioProvider,
   StudioLayout,
   useWorkspace,

@@ -4,7 +4,12 @@ import { useMemo } from 'react'
 import { Studio } from 'sanity'
 
 import { useBasePath } from 'hooks'
-import { DefaultDocumentNodeResolver, deskTool, View, ViewBuilder } from 'sanity/desk'
+import {
+  DefaultDocumentNodeResolver,
+  deskTool,
+  View,
+  ViewBuilder,
+} from 'sanity/desk'
 import HeroPost from 'components/blog/HeroPost'
 import BlogPreviewWrapper from 'components/studios/chapter-01/BlogPreviewWrapper'
 import PostPreview from 'components/blog/PostPreview'
@@ -17,34 +22,79 @@ const MorePreview = (props) => {
   return <MoreStories posts={[props]} />
 }
 
-const DetailPreview = ({title, date, slug, excerpt, coverImage, author, content}) => {
-  return <>
-    <PostHeader author={author} coverImage={coverImage} title={title} date={date} />
-    <PostBody content={content} />
-  </>
+const DetailPreview = ({
+  title,
+  date,
+  slug,
+  excerpt,
+  coverImage,
+  author,
+  content,
+}) => {
+  return (
+    <>
+      <PostHeader
+        author={author}
+        coverImage={coverImage}
+        title={title}
+        date={date}
+      />
+      <PostBody content={content} />
+    </>
+  )
 }
 
-const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
-  const views: (View | ViewBuilder)[] = [];
+const defaultDocumentNode: DefaultDocumentNodeResolver = (
+  S,
+  { schemaType }
+) => {
+  const views: (View | ViewBuilder)[] = []
 
-  views.push(S.view.form());
+  views.push(S.view.form())
 
   if (schemaType === 'post') {
-    // views.push(S.view.component(({ document: { displayed: { title, date, slug, excerpt}} }) => 
+    // views.push(S.view.component(({ document: { displayed: { title, date, slug, excerpt}} }) =>
     //  <HeroPost title={title} date={date} excerpt={excerpt} slug={slug.current} />
     // ).id('hero-preview').title('Hero'))
-    views.push(S.view.component(({document}) => <BlogPreviewWrapper document={document} Component={HeroPost} />).id('hero-preview').title('Hero'))
-    views.push(S.view.component(({document}) => <BlogPreviewWrapper document={document} Component={MorePreview} />).id('more-preview').title('More'))
-    views.push(S.view.component(({document}) => <BlogPreviewWrapper document={document} Component={DetailPreview} />).id('detail-preview').title('Detail'))
-  
+    views.push(
+      S.view
+        .component(({ document }) => (
+          <BlogPreviewWrapper document={document} Component={HeroPost} />
+        ))
+        .id('hero-preview')
+        .title('Hero')
+    )
+    views.push(
+      S.view
+        .component(({ document }) => (
+          <BlogPreviewWrapper document={document} Component={MorePreview} />
+        ))
+        .id('more-preview')
+        .title('More')
+    )
+    views.push(
+      S.view
+        .component(({ document }) => (
+          <BlogPreviewWrapper document={document} Component={DetailPreview} />
+        ))
+        .id('detail-preview')
+        .title('Detail')
+    )
   }
 
-  return S.document().views(views) 
+  return S.document().views(views)
 }
 
 export default function StudioRoute() {
   const basePath = useBasePath()
-  const config = useMemo(() => createStudioConfig({ basePath, plugins: [deskTool({defaultDocumentNode})] }), [basePath])
+  const config = useMemo(
+    () =>
+      createStudioConfig({
+        basePath,
+        plugins: [deskTool({ defaultDocumentNode })],
+      }),
+    [basePath]
+  )
   return (
     <StudioPage>
       <Studio config={config} />

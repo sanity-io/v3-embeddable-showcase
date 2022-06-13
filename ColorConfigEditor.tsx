@@ -17,12 +17,7 @@ import {
   type ColorHueKey,
   type ColorTintKey,
 } from '@sanity/color'
-import {
-  defaultTheme,
-  ColorSchemeProvider,
-  StudioProvider,
-  StudioLayout,
-} from 'sanity'
+import { defaultTheme, StudioProvider, StudioLayout } from 'sanity'
 import {
   ThemeProvider,
   Avatar,

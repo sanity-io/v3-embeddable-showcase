@@ -21,9 +21,11 @@ export default function HeroPost({
 }) {
   return (
     <section>
-      {coverImage && <div className="mb-8 md:mb-16">
-        <CoverImage slug={slug} title={title} image={coverImage} />
-      </div> }
+      {coverImage && (
+        <div className="mb-8 md:mb-16">
+          <CoverImage slug={slug} title={title} image={coverImage} />
+        </div>
+      )}
       <div className="mb-20 md:mb-28 md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8">
         <div>
           <h3 className="mb-4 text-4xl leading-tight lg:text-6xl">
@@ -37,7 +39,12 @@ export default function HeroPost({
         </div>
         <div>
           <p className="mb-4 text-lg leading-relaxed">{excerpt}</p>
-          {author && <Avatar name={author?.name || 'No Name'} picture={author?.picture} />}
+          {author && (
+            <Avatar
+              name={author?.name || 'No Name'}
+              picture={author?.picture}
+            />
+          )}
         </div>
       </div>
     </section>
