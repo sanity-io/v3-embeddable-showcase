@@ -5,11 +5,7 @@ import * as wordpressStudio from './wordpress'
 export type StudioKey =
   | 'blog'
   | 'wordpress'
-  | 'podcast'
-  | 'pokedex'
-  | 'home'
-  | 'bookmark'
-  | 'theme'
+  | 'themer'
 
 export function getCreateStudioConfig(
   studioKey: StudioKey
@@ -23,3 +19,4 @@ export function getCreateStudioConfig(
       throw new Error(`Studio ${studioKey} not found`)
   }
 }
+

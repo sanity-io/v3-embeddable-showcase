@@ -30,6 +30,7 @@ import {
   ImagePalette,
 } from 'sanity'
 
+// @TODO use this hook to look up studios in the workspaces array
 export function useBasePath() {
   const router = useRouter()
   return useMemo(() => router.route.split('/[')[0], [router.route])

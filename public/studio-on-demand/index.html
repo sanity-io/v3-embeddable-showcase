@@ -32,6 +32,9 @@
   </head>
   <body>
     <div id="sanity"></div>
-    <script type="module" src="./init.mjs"></script>
+    <script type="module">
+      import { init } from "./init.mjs";
+      init(document.getElementById("sanity"));
+    </script>
   </body>
 </html>

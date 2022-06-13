@@ -1,38 +1,27 @@
 import createImageUrlBuilder from '@sanity/image-url'
-import { useMemo, useState } from 'react'
 import createSanityClient from '@sanity/client'
 
 export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || ''
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || ''
 
-// Only use the API CDN when in the browser and in production mode
-function createClientConfig({
+const clientConfig = {
+  // Hardcoding on purpose, dot-env is the way
+  // If you *really must* use another project id, use the client.withConfig({projectId: ''}) technique
+  projectId,
   dataset,
-}: {
-  dataset: string
-  useCdn?: boolean
-}) {
-  return {
-    dataset,
-    // Hardcoding on purpose, dot-env is the way
-    // If you *really must* use another project id, use the client.withConfig({projectId: ''}) technique
-    projectId,
-    useCdn:
-      typeof document === 'undefined' && process.env.NODE_ENV === 'production',
-    apiVersion: 'v2022-03-13',
-  }
+  // Only use the API CDN when in the browser and in production mode
+  useCdn:
+    typeof document === 'undefined' && process.env.NODE_ENV === 'production',
+  apiVersion: 'v2022-03-13',
 }
-
-export function createClient({ dataset }: { dataset: string }) {
-  const clientConfig = createClientConfig({ dataset })
+export function createClient() {
   return createSanityClient(clientConfig)
 }
 
 export function createPreviewClient({
   token = process.env.SANITY_API_TOKEN,
-  ...config
 }: {
   token?: string
-  dataset: string
 }) {
   if (!token) {
     throw new Error('No API token provided to the Sanity Preview client')
@@ -44,8 +33,7 @@ export function createPreviewClient({
     )
   }
 
-  const { dataset, projectId, apiVersion } = createClientConfig(config)
-  return createSanityClient({ dataset, projectId, apiVersion, useCdn: false })
+  return createClient().withConfig({ token, useCdn: false })
 }
 
 export function filterDataToSingleItem(data = [], preview = false) {
@@ -64,7 +52,7 @@ export function filterDataToSingleItem(data = [], preview = false) {
   return data[0]
 }
 
-const imageBuilder = createImageUrlBuilder({ projectId, dataset: 'production' })
+const imageBuilder = createImageUrlBuilder({ projectId, dataset })
 export const urlForImage = (source: Parameters<typeof imageBuilder.image>[0]) =>
   imageBuilder.image(source).auto('format').fit('max')
 

@@ -1,6 +1,6 @@
 import Singularity from 'components/Singularity'
 import StudioPage from 'components/StudioPage'
-import ThemeStudio from 'components/studios/theme'
+import ThemeStudio from 'components/studios/themer'
 import { useEffect, useState } from 'react'
 
 export default function ThemeStudioPage() {
