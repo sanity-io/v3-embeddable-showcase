@@ -7,6 +7,7 @@ import {
   projectId,
 } from 'hooks/useSanityClient'
 import { createPreviewSubscriptionHook } from 'next-sanity'
+import {dataset} from 'components/studios/blog'
 
 const query = /* groq */ `*[_type == "post"] | order(date desc, _updatedAt desc) {
   _id,
@@ -19,7 +20,6 @@ const query = /* groq */ `*[_type == "post"] | order(date desc, _updatedAt desc)
   "author": author->{name, picture},
 }`
 
-const dataset = 'production'
 const usePreviewSubscription = createPreviewSubscriptionHook({
   projectId,
   dataset,

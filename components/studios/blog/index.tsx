@@ -1,3 +1,6 @@
+// @TODO the index should just be a re-exporter, move stuff like the scheme to ./schema etc
+// This is the Studio used to edit the blog based on vercel's starter
+
 import { useMemo } from 'react'
 import {
   type Config,
@@ -57,8 +60,8 @@ export function createStudioConfig({
     projectId,
     dataset,
     plugins: [deskTool()],
-    name: 'brown-pelican',
-    title: 'Wordpress',
+    name: 'blog',
+    title: 'Blog',
     schema: {
       types: [
         {

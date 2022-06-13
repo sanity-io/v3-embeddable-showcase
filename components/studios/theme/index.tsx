@@ -29,8 +29,7 @@ import {
 import useListeningQuery from 'hooks/useListeningQuery'
 import ImagePalettePreview from 'components/ImagePalettePreview'
 
-// @TODO: create a "themes" dataset
-export const dataset = 'staging'
+export const dataset = 'themes'
 const studios = ['wordpress', 'drupal', 'joomla', 'spotify', 'theme-studio']
 type PreviewPaneProps = {
   documentId: string

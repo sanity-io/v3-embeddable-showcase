@@ -13,6 +13,7 @@ import { deskTool } from 'sanity/desk'
 import { useBasePath } from 'hooks'
 import { projectId } from 'hooks/useSanityClient'
 
+export const dataset = 'staging'
 export function getConfig({
   basePath,
   ...other
@@ -21,8 +22,7 @@ export function getConfig({
   return createConfig({
     basePath,
     projectId,
-    // @TODO give its own dataset
-    dataset: 'staging',
+    dataset,
     plugins: [deskTool()],
     name: 'midnight-pegasus',
     title: 'Studio V3',

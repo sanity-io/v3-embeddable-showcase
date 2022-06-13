@@ -8,8 +8,11 @@ import {
 } from 'sanity'
 import { projectId } from 'hooks/useSanityClient'
 import { deskTool } from 'sanity/desk'
+import {dataset} from 'components/studios/blog'
 
 import { useBasePath } from 'hooks'
+
+// This Studio is really just a visually different version of the blog, same data
 
 export function createStudioConfig({
   basePath,
@@ -19,8 +22,7 @@ export function createStudioConfig({
   return createConfig({
     basePath,
     projectId,
-    // @TODO: give FakePress its own dataset
-    dataset: 'staging',
+    dataset,
     plugins: [deskTool()],
     name: 'brown-pelican',
     title: 'Wordpress',
