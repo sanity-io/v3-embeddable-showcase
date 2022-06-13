@@ -51,7 +51,7 @@ function PreviewStudio(props: PreviewPaneProps) {
   const history = useMagicRouter('/')
   const { scheme } = useColorScheme()
   const { data } = useListeningQuery(
-    `{
+    /* groq */`{
       "themes": *[_type == "theme" || _type == "logo"]{_id, "palette": source.asset->metadata.palette},
       "logos": *[_type == "studio"]{"_ref": logo.asset._ref, "palette": logo.asset->metadata.palette},
     }`
@@ -154,11 +154,8 @@ export const config: WorkspaceOptions = {
   dataset: process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset,
   plugins: [deskTool({
     title: 'Themes',
-     /*
+     // /*
     defaultDocumentNode: (S, { schemaType }) => {
-      return S.document().views([
-        S.view.form(),
-      ])
       if (schemaType === 'studio') {
         return S.document().views([
           S.view.form(),
@@ -177,8 +174,8 @@ export const config: WorkspaceOptions = {
         .id('root')
         .title('Studios')
         .items([
-          ...studios.map((studio) =>
-            S.documentListItem().id(studio).schemaType('studio')
+          ...workspaces.map((workspace) =>
+            S.documentListItem().id(workspace.name).schemaType('studio')
           ),
           S.divider(),
           S.documentTypeListItem('theme')
