@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* override tailwind reset */
+:root svg {
+  display: inline;
+}
+
+/* apply Dark mode before hydration, if needed */
+@media (prefers-color-scheme: dark) {
+  [data-studio-canvas] {
+    background-color: #101112;
+  }
+  [data-studio-canvas] > [data-scheme='light'] {
+    --card-bg-color: #101112;
+    --card-fg-color: #fff;
+  }
+  /* For iOS Safari toolbars */
+  body {
+    /* background-color: #000; */
+  }
+}
+
+/* iOS insets */
+[data-studio-canvas] {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
