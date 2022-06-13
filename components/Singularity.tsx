@@ -86,7 +86,7 @@ export default function Singularity(props: { singularity: boolean }) {
               ],
             },
             {
-              duration: 1,
+              delay: stagger(0.1),
             },
           ],
           [
@@ -94,7 +94,7 @@ export default function Singularity(props: { singularity: boolean }) {
             {
               transform: 'translate3d(-50vw,50vh, 0) scale(0)',
             },
-            { duration: 1 },
+            { delay: stagger(0.1) },
           ],
           [
             '[data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview]',
@@ -102,7 +102,6 @@ export default function Singularity(props: { singularity: boolean }) {
               opacity: 0,
               transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
             },
-            { duration: 1 },
           ],
           [
             '[data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview]',
@@ -110,7 +109,6 @@ export default function Singularity(props: { singularity: boolean }) {
               opacity: 0,
               transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
             },
-            { duration: 1 },
           ],
           [
             '[data-studio-preview] [data-studio-preview] [data-studio-preview] [data-studio-preview]',
@@ -118,7 +116,6 @@ export default function Singularity(props: { singularity: boolean }) {
               opacity: 0,
               transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
             },
-            { duration: 1 },
           ],
           [
             '[data-studio-preview] [data-studio-preview] [data-studio-preview]',
@@ -126,7 +123,6 @@ export default function Singularity(props: { singularity: boolean }) {
               opacity: 0,
               transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
             },
-            { duration: 1 },
           ],
           [
             '[data-studio-preview] [data-studio-preview]',
@@ -134,7 +130,6 @@ export default function Singularity(props: { singularity: boolean }) {
               opacity: 0,
               transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
             },
-            { duration: 1 },
           ],
           [
             '[data-studio-preview]',
@@ -142,7 +137,6 @@ export default function Singularity(props: { singularity: boolean }) {
               opacity: 0,
               transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
             },
-            { duration: 1 },
           ],
           [
             '[data-studio-canvas]',
@@ -150,7 +144,6 @@ export default function Singularity(props: { singularity: boolean }) {
               opacity: 0,
               transform: 'translate3d(-5vw,5vh, 0) scale(0.5) rotate(15deg)',
             },
-            { duration: 1 },
           ],
         ],
         { delay: 10, defaultOptions: { easing: 'ease-in-out' } }

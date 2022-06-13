@@ -1,6 +1,6 @@
 import { projectId, dataset } from 'hooks/useSanityClient'
 import { type WorkspaceOptions } from 'sanity'
-import BlogPreviewWrapper from "./BlogPreviewWrapper";
+import BlogPreviewWrapper from './BlogPreviewWrapper'
 import { config as blogConfig } from 'components/studios/blog'
 import StudioPage from 'components/StudioPage'
 import { useMemo } from 'react'
@@ -19,8 +19,7 @@ import MoreStories from 'components/blog/MoreStories'
 import PostHeader from 'components/blog/PostHeader'
 import { cover } from 'polished'
 import PostBody from 'components/blog/PostBody'
-import {types} from 'components/studios/blog'
-
+import { types } from 'components/studios/blog'
 
 // @ts-expect-error
 const MorePreview = (props) => {

@@ -1,39 +1,46 @@
-import { post, author } from './schema.mjs'
 import { history } from './history.mjs'
-import { name, projectId, dataset } from './config.mjs'
 import { sanity } from './deps.mjs'
 
-export function init(mountNode) {
+export async function init(mountNode) {
   const { createConfig, renderStudio, deskTool } = sanity
+  const basePath = location.pathname
 
-  const config = {
-    basePath: '/',
-    name,
-    projectId,
-    dataset,
-    schema: { types: [post, author] },
-    plugins: [deskTool()],
-  }
-  const studioConfig = createConfig([
-    config,
-    // { ...config, name: 'blog', basePath: '/desk' },
+  const { workspaces, schema } = await fetch('/api/studio/workspaces').then(
+    (r) => r.json()
+  )
+  const { name, title, projectId, dataset } = workspaces.find(
+    (workspace) => workspace.basePath === basePath
+  )
+
+  const config = createConfig([
+    ...workspaces.filter((workspace) => workspace.basePath !== basePath),
+    {
+      basePath,
+      title,
+      name,
+      projectId,
+      dataset,
+      schema,
+      plugins: [deskTool()],
+      unstable_history: history,
+    },
   ])
-  const studio = renderStudio(mountNode, studioConfig, {
+  const studio = renderStudio(mountNode, config, {
     unstable_history: history,
     unstable_noAuthBoundary: true,
   })
 
-  window.updateStudio = ({ config: _config, ...overrides }) => {
+  window.updateStudio = (overrides) => {
     studio.unstable_patch({
       unstable_history: history,
       unstable_noAuthBoundary: true,
+      config,
       ...overrides,
-      config: _config ? createConfig({ ...config, ..._config }) : studioConfig,
     })
   }
   console.group('Hi there!')
   console.log(
-    'This is an instance of Sanity Studio V3 running natively on ESM URL imports, no bundling involved or any loading runtimes.'
+    'This is an instance of Sanity Studio V3 running natively on ESM URL imports, no bundling involved.'
   )
   console.log('All native ✨')
   console.log(
@@ -42,6 +49,6 @@ export function init(mountNode) {
   console.log(
     'Try changing the name of the studio by calling `updateStudio({config: {name: "I did the thing 🥳"}})`'
   )
-  console.debug(config)
-  console.groupCollapsed()
+  console.debug({ config })
+  console.groupEnd()
 }

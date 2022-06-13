@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/studio-on-demand",
+      "destination": "/studio-on-demand/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/studio-on-demand/index.html",
+      "destination": "/studio-on-demand"
+    }
+  ]
+}
