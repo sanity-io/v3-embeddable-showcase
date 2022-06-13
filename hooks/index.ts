@@ -186,15 +186,11 @@ export const slateTones = {
   primary: slateHues,
 }
 
-export function useMagicRouter() {
+export function useMagicRouter(initial: string) {
   const history = useMemo((): ReturnType<typeof createMemoryHistory> => {
     const history = createMemoryHistory({
-      initialEntries: ['/desk'],
+      initialEntries: [initial],
     })
-    if (typeof window !== 'undefined') {
-      // @ts-expect-error
-      window.cody = history
-    }
     return {
       get action() {
         return history.action

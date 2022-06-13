@@ -1,7 +1,8 @@
 import { black, white } from '@sanity/color'
 import Link from 'next/link'
 import Sandbox from 'components/Sandbox'
-import { createStudioConfig as getWordpressConfig } from 'components/studios/wordpress'
+
+import config from 'sanity.config'
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import React, {
   useState,
@@ -35,7 +36,7 @@ import {
   Avatar,
   usePrefersDark,
 } from '@sanity/ui'
-import { createMemoryHistory, createHashHistory, type Listener } from 'history'
+
 import * as stable from 'sanity'
 import * as unstable from 'sanity/_unstable'
 import { unstable_batchedUpdates } from 'react-dom'
@@ -62,7 +63,10 @@ const RENDER_INLINE = true
 console.debug({ defaultTheme })
 type StudioTheme = typeof defaultTheme
 function IndexPage() {
-  const history = useMagicRouter()
+  console.warn(config[0].basePath || '/')
+  // const history = useMagicRouter(config[0].basePath || '/')
+  const history = useMagicRouter('/studio/desk')
+  console.log(history)
 
   const [preset, setPreset] = useState<any>('imagepalette')
   const colorConfigs = useTonesFromPreset({ preset })
@@ -114,7 +118,8 @@ function IndexPage() {
   // TODO generate tones, there are 6 tones, default, transparent, primary, positive, caution, critical
   // each tone have a range.
   // A tone is generated in Sanity using darkest, mid, lightest, and midPoint
-  const studioConfig = useMemo(() => getWordpressConfig({ basePath: '/' }), [])
+  // const studioConfig = useMemo(() => getWordpressConfig({ basePath: '/' }), [])
+  const studioConfig = config[0]
 
   return (
     <>
