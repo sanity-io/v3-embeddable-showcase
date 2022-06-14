@@ -1,19 +1,20 @@
-import { history } from './history.mjs'
+import { createHistory } from './history.mjs'
 import { sanity } from './deps.mjs'
 
 export async function init(mountNode) {
+  const name = 'studio-on-demand'
   const { createConfig, renderStudio, deskTool } = sanity
-  const basePath = location.pathname
 
   const { workspaces, schema } = await fetch('/api/studio/workspaces').then(
     (r) => r.json()
   )
-  const { name, title, projectId, dataset } = workspaces.find(
-    (workspace) => workspace.basePath === basePath
+  const { title, projectId, dataset, basePath } = workspaces.find(
+    (workspace) => workspace.name === name
   )
 
+  const history = createHistory(basePath)
   const config = createConfig([
-    ...workspaces.filter((workspace) => workspace.basePath !== basePath),
+    ...workspaces.filter((workspace) => workspace.name !== name),
     {
       basePath,
       title,

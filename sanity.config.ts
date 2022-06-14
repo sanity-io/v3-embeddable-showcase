@@ -14,7 +14,7 @@ export default createConfig([
   {
     name: 'studio-on-demand',
     title: 'V3 + ESM = <3',
-    basePath: '/studio-on-demand',
+    basePath: '/__native-esm__',
     dataset,
     projectId,
   },
