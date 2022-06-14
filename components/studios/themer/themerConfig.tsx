@@ -1,5 +1,6 @@
 // A super-charged studio capable of editing the color scheme of other studios and previewing them live
 
+import { DashboardIcon } from '@sanity/icons'
 import { Card, Code, Grid, ThemeProvider, Box } from '@sanity/ui'
 
 import { config as blogConfig } from 'components/studios/blog'
@@ -155,33 +156,12 @@ console.log(
 
 export const config: WorkspaceOptions = {
   basePath: '/manage/themer',
+  icon: DashboardIcon,
   projectId,
   dataset: process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset,
   name: 'themer',
   title: 'Themer',
   schema: { types },
-  document: {
-    actions: (prev) => [],
-    badges: () => [],
-    resolveProductionUrl: async (context) => {
-      // @TODO query secret doc for preview URL
-    },
-    /*  resolveNewDocumentOptions: (prev) => [{
-        tone: 'positive',
-        //modal,
-        onHandle: (...args) => {console.log('onHandle', ...args)},
-        label: 'Test confirm modal',
-        shortcut: 'mod+p',
-      },...prev], */
-  },
-  navbar: {
-    components: {
-      ToolMenu: (props) => {
-        console.log('ToolMenu', props)
-        return <button>Jo!</button>
-      },
-    },
-  },
   plugins: [
     deskTool({
       title: 'Appearance',

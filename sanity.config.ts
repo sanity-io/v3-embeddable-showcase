@@ -15,13 +15,14 @@ const workspaces = createConfig([
   // manage/themer
   themerConfig,
   // May not work as it uses different routing
-  {
+  // @TODO test it works again
+  /* {
     name: 'studio-on-demand',
     title: 'V3 + ESM = <3',
     basePath: '/__native-esm__/studio',
     dataset,
     projectId,
-  },
+  }, */
 ])
 
 export default workspaces

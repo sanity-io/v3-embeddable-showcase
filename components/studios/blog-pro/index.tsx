@@ -1,10 +1,9 @@
 import { projectId, dataset } from 'hooks/useSanityClient'
 import { type WorkspaceOptions } from 'sanity'
 import BlogPreviewWrapper from './BlogPreviewWrapper'
-import { useMemo } from 'react'
-import { Studio, createConfig } from 'sanity'
+import { RobotIcon } from '@sanity/icons'
+import { Card, Flex } from '@sanity/ui'
 
-import { useBasePath } from 'hooks'
 import {
   DefaultDocumentNodeResolver,
   deskTool,
@@ -12,12 +11,11 @@ import {
   ViewBuilder,
 } from 'sanity/desk'
 import HeroPost from 'components/blog/HeroPost'
-import PostPreview from 'components/blog/PostPreview'
+import Avatar from 'components/blog/Avatar'
 import MoreStories from 'components/blog/MoreStories'
 import PostHeader from 'components/blog/PostHeader'
-import { cover } from 'polished'
 import PostBody from 'components/blog/PostBody'
-import { types } from 'components/studios/blog'
+import { types, productionUrl } from 'components/studios/blog'
 
 // @ts-expect-error
 const MorePreview = (props) => {
@@ -90,16 +88,35 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .title('Detail')
     )
   }
+  if (schemaType === 'author') {
+    views.push(
+      S.view
+        .component(({ document }) => (
+          <Card padding={6}>
+            <Flex justify="center">
+              <Avatar
+                name={document.name || 'Untitled'}
+                picture={document.picture}
+              />
+            </Flex>
+          </Card>
+        ))
+        .id('avatar-preview')
+        .title('Avatar')
+    )
+  }
 
   return S.document().views(views)
 }
 
 export const config: WorkspaceOptions = {
   basePath: '/manage/blog-pro',
+  icon: RobotIcon,
   projectId,
   dataset,
   plugins: [deskTool({ defaultDocumentNode })],
   name: 'blog-pro',
   title: 'Pro Blog',
   schema: { types },
+  document: { productionUrl },
 }

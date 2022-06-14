@@ -5,7 +5,7 @@ const nextConfig = {
     // ssr and displayName are configured by default
     styledComponents: true,
   },
-  images: { domains: ['cdn.sanity.io'] },
+  images: { domains: ['cdn.sanity.io', 'source.unsplash.com'] },
   env: {
     // Debug it all!!, or state-router for just sanity routing
     // https://www.npmjs.com/package/debug
