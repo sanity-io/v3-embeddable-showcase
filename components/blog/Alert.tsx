@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Container from './Container'
 import cn from 'classnames'
 
@@ -11,15 +12,15 @@ export default function Alert({ preview }: { preview?: boolean }) {
     >
       <Container>
         {preview ? (
-          <div className="py-2 text-center text-sm">
+          <div className="py-2 text-sm text-center">
             <>
               This page is a preview.{' '}
-              <a
-                href="/api/exit-preview"
+              <Link href="/api/exit-preview"><a
+                
                 className="underline transition-colors duration-200 hover:text-cyan"
               >
                 Click here
-              </a>{' '}
+              </a></Link>{' '}
               to exit preview mode.
             </>
           </div>
