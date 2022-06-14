@@ -19,6 +19,14 @@ const nextConfig = {
     // !! WARN !!
     // ignoreBuildErrors: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/studio',
+        destination: '/studio.html',
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
