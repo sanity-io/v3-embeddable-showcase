@@ -225,7 +225,7 @@ export function useMagicRouter(initial: string) {
         })
       },
     }
-  }, [])
+  }, [initial])
 
   return history
 }

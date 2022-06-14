@@ -6,19 +6,9 @@ import {
   createPreviewClient,
   projectId,
   dataset,
+  allPostsQuery,
 } from 'hooks/useSanityClient'
 import { createPreviewSubscriptionHook } from 'next-sanity'
-
-const query = /* groq */ `*[_type == "post"] | order(date desc, _updatedAt desc) {
-  _id,
-  name,
-  title,
-  date,
-  excerpt,
-  coverImage,
-  "slug": slug.current,
-  "author": author->{name, picture},
-}`
 
 const usePreviewSubscription = createPreviewSubscriptionHook({
   projectId,
@@ -31,7 +21,7 @@ export default function Index({
   allPosts: any[]
   preview: boolean
 }) {
-  const { data } = usePreviewSubscription(query, {
+  const { data } = usePreviewSubscription(allPostsQuery, {
     initialData: allPosts,
     enabled: preview,
   })
@@ -45,7 +35,7 @@ export default function Index({
 export async function getStaticProps({ preview = false }) {
   const client = preview ? createPreviewClient() : createClient()
 
-  const allPosts = overlayDrafts(await client.fetch(query))
+  const allPosts = overlayDrafts(await client.fetch(allPostsQuery))
   return {
     props: { allPosts, preview },
   }

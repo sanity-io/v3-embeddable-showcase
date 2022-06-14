@@ -37,6 +37,12 @@ export const types = [
         readonly: true,
       },
       {
+        name: 'subtitle',
+        title: 'subtitle',
+        type: 'string',
+        readonly: true,
+      },
+      {
         name: 'title',
         title: 'Title',
         type: 'string',

@@ -13,7 +13,6 @@ export default function WordpressRoute(props: Props) {
   const fallbackTheme = useCustomStudioTheme({config: preset})
   const theme = props.theme || fallbackTheme
   const appliedTheme = useMemo(() => workspaces.map(workspace => ({... workspace, theme})), [theme])
-  console.log({theme})
   return (
     <StudioPage>
       <Studio config={appliedTheme} unstable_noAuthBoundary />
