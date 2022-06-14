@@ -59,6 +59,7 @@ export default function Post({
 
   return null
 
+  /*
   return (
     <Layout preview={preview}>
       <Container>
@@ -99,6 +100,7 @@ export default function Post({
       </Container>
     </Layout>
   )
+  // */
 }
 
 export async function getStaticProps({
