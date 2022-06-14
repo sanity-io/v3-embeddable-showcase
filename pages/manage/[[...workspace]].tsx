@@ -15,7 +15,7 @@ export default function ManageWorkspace(props: Props) {
   )
 }
 
-export async function getInitialProps(): {props: Props} {
+export async function getInitialProps(): Promise<{props: Props}> {
   return {
     props: {},
   }

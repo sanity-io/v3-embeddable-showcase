@@ -35,14 +35,14 @@ export const types = [
         name: 'name',
         title: 'Name',
         type: 'string',
-        readonly: true,
+        readOnly: true,
       },
       // Based on `type WorkspaceOptions from sanity`
       {
         name: 'basePath',
         title: 'basePath',
         type: 'string',
-        readonly: true,
+        readOnly: true,
       },
       {
         name: 'title',
@@ -53,7 +53,7 @@ export const types = [
         name: 'subtitle',
         title: 'subtitle',
         type: 'string',
-        readonly: true,
+        readOnly: true,
       },
 
       {
@@ -68,7 +68,7 @@ export const types = [
         name: 'icon',
         title: 'Icon',
         type: 'image',
-        readonly: true,
+        readOnly: true,
       },
       /*
       navbar?: {
