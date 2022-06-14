@@ -57,6 +57,8 @@ export default function Post({
     return <ErrorPage statusCode={404} />
   }
 
+  return null
+
   return (
     <Layout preview={preview}>
       <Container>
