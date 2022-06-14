@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { StudioProvider, defaultTheme } from 'sanity'
-import { config } from 'components/studios/blog'
+import { StudioProvider, defaultTheme, StudioLayout } from 'sanity'
+import config from 'sanity.config'
 import { ThemeProvider, Button } from '@sanity/ui'
 import { useMagicRouter } from 'hooks'
 import { EditIcon } from '@sanity/icons'
@@ -11,7 +11,7 @@ import { StyledBottomSHeet } from './Playground'
 export function EditPost({ preview, _id }: { preview: boolean; _id: string }) {
   // Getting the entire Studio context provider is overkill, but is fast
 
-  const editLabel = <>icon</>
+  
   return (
     <ThemeProvider theme={defaultTheme} scheme="light">
       {!preview && <EditPostLink _id={_id} />}
@@ -47,22 +47,27 @@ function EditPostButton({ _id }: { _id: string }) {
         <EditIcon /> Edit
       </Button>
       <StyledBottomSHeet
+       blocking={false}
+       scrollLocking={false}
         open={shouldBottomSheet && open}
         onDismiss={() => setOpen(false)}
         defaultSnap={({ snapPoints, lastSnap }) =>
-          lastSnap ?? Math.max(...snapPoints)
+          lastSnap ?? Math.min(...snapPoints)
         }
         snapPoints={({ maxHeight }) => [maxHeight / 3, maxHeight - 64]}
       >
         <StudioProvider
           config={config}
-          scheme="light"
+          scheme="dark"
           unstable_history={history}
           unstable_noAuthBoundary
         >
-          Insert bottom sheet here on mobile
-          <br />
-          PiP on desktop
+          <div
+            className="h-[number:var(--rsbs-overlay-h,100%)] min-h-[number:1px] w-full rounded-t-[calc(var(--rsbs-overlay-rounded)_-_3px)] opacity-[var(--rsbs-content-opacity)]"
+            style={{ contain: 'strict' }}
+          >
+            <StudioLayout />
+          </div>
         </StudioProvider>
       </StyledBottomSHeet>
     </>
