@@ -31,11 +31,12 @@ export const types = [
     },
     fields: [
       // The name is used to identify the Studio
-      {
+      /*  {
         name: 'name',
         title: 'Name',
         type: 'string',
         readOnly: true,
+        hidden: true,
       },
       // Based on `type WorkspaceOptions from sanity`
       {
@@ -43,7 +44,8 @@ export const types = [
         title: 'basePath',
         type: 'string',
         readOnly: true,
-      },
+        hidden: true,
+      }, */
       {
         name: 'title',
         title: 'Title',
@@ -53,21 +55,6 @@ export const types = [
         name: 'subtitle',
         title: 'subtitle',
         type: 'string',
-        readOnly: true,
-      },
-
-      {
-        name: 'logo',
-        title: 'Logo',
-        type: 'image',
-        options: {
-          hotspot: true,
-        },
-      },
-      {
-        name: 'icon',
-        title: 'Icon',
-        type: 'image',
         readOnly: true,
       },
       /*
