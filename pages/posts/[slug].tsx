@@ -22,6 +22,7 @@ import PostTitle from 'components/blog/PostTitle'
 import { type SanityDocumentLike } from 'sanity'
 import { createPreviewSubscriptionHook } from 'next-sanity'
 import { type Image } from 'sanity'
+import { EditPost } from 'components/SuperLivePreview'
 
 const usePreviewSubscription = createPreviewSubscriptionHook({
   projectId,
@@ -29,7 +30,7 @@ const usePreviewSubscription = createPreviewSubscriptionHook({
 })
 export default function Post({
   data: initialData,
-  preview,
+  preview: _preview,
 }: {
   data?: SanityDocumentLike
   preview: boolean
@@ -40,9 +41,11 @@ export default function Post({
   const { data } = usePreviewSubscription(postQuery, {
     params: { slug },
     initialData,
-    enabled: preview && slug,
+    enabled: _preview && slug,
   })
+  const preview = _preview && slug && data
   const post: {
+    _id?: string
     title?: string
     coverImage?: Image
     date?: string
@@ -80,13 +83,16 @@ export default function Post({
                   />
                 )}
               </Head>
+
               <PostHeader
                 title={post.title}
                 coverImage={post.coverImage}
                 date={post.date}
                 author={post.author}
               />
+
               <PostBody content={post.content} />
+              {post._id && <EditPost preview={preview} _id={post._id} />}
             </article>
             <SectionSeparator />
             {(morePosts as any)?.length > 0 && (
