@@ -42,7 +42,7 @@ import * as unstable from 'sanity/_unstable'
 import { unstable_batchedUpdates } from 'react-dom'
 import ThemePreview from 'components/ThemePreview'
 import {
-  useCustomStudioTheme,
+  createStudioTheme,
   useColorConfigState,
   useTonesFromPreset,
   demoImagePalette,

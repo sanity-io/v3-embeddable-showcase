@@ -526,7 +526,7 @@ export function useTonesFromPreset({ preset }: { preset: PresetTheme }): {
     ...overrides,
   }
 }
-function useTonesFromConfig({
+function createTonesFromConfig({
   config,
 }: {
   config: {
@@ -545,14 +545,18 @@ function useTonesFromConfig({
   caution: ColorTints
   critical: ColorTints
 } {
-  const defaultTints = useTintsFromHue(config.default || defaultColorConfig)
-  const transparentTints = useTintsFromHue(
+  const defaultTints = createTintsFromHue(config.default || defaultColorConfig)
+  const transparentTints = createTintsFromHue(
     config.transparent || transparentColorConfig
   )
-  const primaryTints = useTintsFromHue(config.primary || primaryColorConfig)
-  const positiveTints = useTintsFromHue(config.positive || positiveColorConfig)
-  const cautionTints = useTintsFromHue(config.caution || cautionColorConfig)
-  const criticalTints = useTintsFromHue(config.critical || criticalColorConfig)
+  const primaryTints = createTintsFromHue(config.primary || primaryColorConfig)
+  const positiveTints = createTintsFromHue(
+    config.positive || positiveColorConfig
+  )
+  const cautionTints = createTintsFromHue(config.caution || cautionColorConfig)
+  const criticalTints = createTintsFromHue(
+    config.critical || criticalColorConfig
+  )
 
   return {
     default: defaultTints,
@@ -563,7 +567,7 @@ function useTonesFromConfig({
     critical: criticalTints,
   }
 }
-export function useCustomStudioTheme({
+export function createStudioTheme({
   config,
 }: {
   config: {
@@ -575,7 +579,7 @@ export function useCustomStudioTheme({
     critical: ColorHueConfig
   }
 }): StudioTheme {
-  const tones = useTonesFromConfig({ config })
+  const tones = createTonesFromConfig({ config })
   // console.log({ tones })
   const black = { title: 'Black', hex: config.default?.darkest || _black.hex }
   const white = { title: 'white', hex: config.default?.lightest || _white.hex }
@@ -587,75 +591,47 @@ export function useCustomStudioTheme({
   // const linkHue = _hues.blue
   const linkHue = tones.primary
 
-  return useMemo<StudioTheme>(() => {
-    const superTheme: Partial<StudioTheme> = {}
+  const superTheme: Partial<StudioTheme> = {}
 
-    // Generate colors :OOO
-    // Based on https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/ui/src/theme/studioTheme/color.ts#L6-L637
-    superTheme.color = createColorTheme({
-      base: ({ dark, name }) => {
-        if (name === 'default') {
-          const skeletonFrom = dark
-            ? tones.transparent[900].hex
-            : tones.transparent[100].hex
+  // Generate colors :OOO
+  // Based on https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/ui/src/theme/studioTheme/color.ts#L6-L637
+  superTheme.color = createColorTheme({
+    base: ({ dark, name }) => {
+      if (name === 'default') {
+        const skeletonFrom = dark
+          ? tones.transparent[900].hex
+          : tones.transparent[100].hex
 
-          return {
-            // @TODO: consider making this overridable
-            fg: dark ? white.hex : black.hex,
-            // @TODO: consider making this overridable
-            bg: dark ? black.hex : white.hex,
-            // @TODO: consider making this overridable
-            border: tones.transparent[dark ? 800 : 200].hex,
-            focusRing: focusRingHue[dark ? 500 : 500].hex,
-            shadow: {
-              outline: rgba(tones.transparent[500].hex, 0.4),
-              umbra: rgba(dark ? black.hex : tones.transparent[500].hex, 0.2),
-              penumbra: rgba(
-                dark ? black.hex : tones.transparent[500].hex,
-                0.14
-              ),
-              ambient: rgba(
-                dark ? black.hex : tones.transparent[500].hex,
-                0.12
-              ),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
+        return {
+          // @TODO: consider making this overridable
+          fg: dark ? white.hex : black.hex,
+          // @TODO: consider making this overridable
+          bg: dark ? black.hex : white.hex,
+          // @TODO: consider making this overridable
+          border: tones.transparent[dark ? 800 : 200].hex,
+          focusRing: focusRingHue[dark ? 500 : 500].hex,
+          shadow: {
+            outline: rgba(tones.transparent[500].hex, 0.4),
+            umbra: rgba(dark ? black.hex : tones.transparent[500].hex, 0.2),
+            penumbra: rgba(dark ? black.hex : tones.transparent[500].hex, 0.14),
+            ambient: rgba(dark ? black.hex : tones.transparent[500].hex, 0.12),
+          },
+          skeleton: {
+            from: skeletonFrom,
+            to: rgba(skeletonFrom, 0.5),
+          },
         }
+      }
 
-        if (name === 'transparent') {
-          const tints = tones.default
-          const skeletonFrom = tints[dark ? 800 : 200].hex
-
-          return {
-            fg: tints[dark ? 100 : 900].hex,
-            bg: tints[dark ? 950 : 50].hex,
-            border: tints[dark ? 800 : 300].hex,
-            focusRing: focusRingHue[500].hex,
-            shadow: {
-              outline: rgba(tints[500].hex, dark ? 0.2 : 0.4),
-              umbra: rgba(dark ? black.hex : tints[500].hex, 0.2),
-              penumbra: rgba(dark ? black.hex : tints[500].hex, 0.14),
-              ambient: rgba(dark ? black.hex : tints[500].hex, 0.12),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
-        }
-
-        const tints = tones[name] || tones.default
+      if (name === 'transparent') {
+        const tints = tones.default
         const skeletonFrom = tints[dark ? 800 : 200].hex
 
         return {
           fg: tints[dark ? 100 : 900].hex,
           bg: tints[dark ? 950 : 50].hex,
-          border: tints[dark ? 800 : 200].hex,
-          focusRing: tints[500].hex,
+          border: tints[dark ? 800 : 300].hex,
+          focusRing: focusRingHue[500].hex,
           shadow: {
             outline: rgba(tints[500].hex, dark ? 0.2 : 0.4),
             umbra: rgba(dark ? black.hex : tints[500].hex, 0.2),
@@ -667,304 +643,198 @@ export function useCustomStudioTheme({
             to: rgba(skeletonFrom, 0.5),
           },
         }
-      },
+      }
 
-      solid: ({ base, dark, name, state, tone }) => {
-        const mix = dark ? screen : multiply
-        const mix2 = dark ? multiply : screen
-        const defaultTints = tones[name] || tones.default
-        const isNeutral =
-          NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
+      const tints = tones[name] || tones.default
+      const skeletonFrom = tints[dark ? 800 : 200].hex
 
-        let tints = tones[tone === 'default' ? name : tone] || defaultTints
+      return {
+        fg: tints[dark ? 100 : 900].hex,
+        bg: tints[dark ? 950 : 50].hex,
+        border: tints[dark ? 800 : 200].hex,
+        focusRing: tints[500].hex,
+        shadow: {
+          outline: rgba(tints[500].hex, dark ? 0.2 : 0.4),
+          umbra: rgba(dark ? black.hex : tints[500].hex, 0.2),
+          penumbra: rgba(dark ? black.hex : tints[500].hex, 0.14),
+          ambient: rgba(dark ? black.hex : tints[500].hex, 0.12),
+        },
+        skeleton: {
+          from: skeletonFrom,
+          to: rgba(skeletonFrom, 0.5),
+        },
+      }
+    },
 
-        if (state === 'disabled') {
-          tints = defaultTints
-          const bg = mix(base.bg, tints[dark ? 800 : 200].hex)
-          const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
+    solid: ({ base, dark, name, state, tone }) => {
+      const mix = dark ? screen : multiply
+      const mix2 = dark ? multiply : screen
+      const defaultTints = tones[name] || tones.default
+      const isNeutral =
+        NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
 
-          return {
-            bg,
-            bg2: mix2(bg, tints[dark ? 50 : 950].hex),
-            border: mix(base.bg, tints[dark ? 800 : 200].hex),
-            fg: mix(base.bg, dark ? black.hex : white.hex),
-            muted: {
-              fg: mix(base.bg, tints[dark ? 950 : 50].hex),
-            },
-            accent: {
-              fg: mix(base.bg, tints[dark ? 950 : 50].hex),
-            },
-            link: {
-              fg: mix(base.bg, tints[dark ? 950 : 50].hex),
-            },
-            code: {
-              bg,
-              fg: mix(base.bg, tints[dark ? 950 : 50].hex),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
-        }
+      let tints = tones[tone === 'default' ? name : tone] || defaultTints
 
-        if (state === 'hovered') {
-          const bg = mix(base.bg, tints[dark ? 300 : 600].hex)
-          const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
-
-          return {
-            bg,
-            bg2: mix2(bg, tints[dark ? 50 : 950].hex),
-            border: mix(base.bg, tints[dark ? 300 : 600].hex),
-            fg: mix(base.bg, dark ? black.hex : white.hex),
-            muted: {
-              fg: mix(base.bg, tints[dark ? 800 : 200].hex),
-            },
-            accent: {
-              fg: mix2(bg, accentHue[dark ? 800 : 200].hex),
-            },
-            link: {
-              fg: mix2(bg, linkHue[dark ? 800 : 200].hex),
-            },
-            code: {
-              bg: mix(bg, tints[dark ? 950 : 50].hex),
-              fg: mix(base.bg, tints[dark ? 800 : 200].hex),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
-        }
-
-        if (state === 'pressed') {
-          const bg = mix(base.bg, tints[dark ? 200 : 800].hex)
-          const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
-
-          return {
-            bg: mix(base.bg, tints[dark ? 200 : 800].hex),
-            bg2: mix2(bg, tints[dark ? 50 : 950].hex),
-            border: mix(base.bg, tints[dark ? 200 : 800].hex),
-            fg: mix(base.bg, dark ? black.hex : white.hex),
-            muted: {
-              fg: mix(base.bg, tints[dark ? 800 : 200].hex),
-            },
-            accent: {
-              fg: mix2(bg, accentHue[dark ? 800 : 200].hex),
-            },
-            link: {
-              fg: mix2(bg, linkHue[dark ? 800 : 200].hex),
-            },
-            code: {
-              bg: mix(bg, tints[dark ? 950 : 50].hex),
-              fg: mix(base.bg, tints[dark ? 800 : 200].hex),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
-        }
-
-        if (state === 'selected') {
-          if (isNeutral) {
-            tints = tones.primary
-          }
-
-          const bg = mix(base.bg, tints[dark ? 200 : 800].hex)
-          const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
-
-          return {
-            bg,
-            bg2: mix2(bg, tints[dark ? 50 : 950].hex),
-            border: mix(base.bg, tints[dark ? 200 : 800].hex),
-            fg: mix(base.bg, dark ? black.hex : white.hex),
-            muted: {
-              fg: mix(base.bg, tints[dark ? 800 : 200].hex),
-            },
-            accent: {
-              fg: mix2(bg, accentHue[dark ? 800 : 200].hex),
-            },
-            link: {
-              fg: mix2(bg, linkHue[dark ? 800 : 200].hex),
-            },
-            code: {
-              bg: mix(bg, tints[dark ? 950 : 50].hex),
-              fg: mix(base.bg, tints[dark ? 800 : 200].hex),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
-        }
-
-        // state: "enabled" | unknown
-        const bg = mix(base.bg, tints[dark ? 400 : 500].hex)
+      if (state === 'disabled') {
+        tints = defaultTints
+        const bg = mix(base.bg, tints[dark ? 800 : 200].hex)
         const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
 
         return {
           bg,
           bg2: mix2(bg, tints[dark ? 50 : 950].hex),
-          border: mix(base.bg, tints[dark ? 400 : 500].hex),
+          border: mix(base.bg, tints[dark ? 800 : 200].hex),
           fg: mix(base.bg, dark ? black.hex : white.hex),
           muted: {
-            fg: mix(base.bg, tints[dark ? 900 : 100].hex),
+            fg: mix(base.bg, tints[dark ? 950 : 50].hex),
           },
           accent: {
-            fg: mix2(bg, accentHue[dark ? 900 : 100].hex),
+            fg: mix(base.bg, tints[dark ? 950 : 50].hex),
           },
           link: {
-            fg: mix2(bg, linkHue[dark ? 900 : 100].hex),
+            fg: mix(base.bg, tints[dark ? 950 : 50].hex),
           },
           code: {
-            bg: mix(bg, tints[dark ? 950 : 50].hex),
-            fg: mix(base.bg, tints[dark ? 900 : 100].hex),
+            bg,
+            fg: mix(base.bg, tints[dark ? 950 : 50].hex),
           },
           skeleton: {
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
         }
-      },
+      }
 
-      muted: ({ base, dark, name, state, tone }) => {
-        const mix = dark ? screen : multiply
-        const defaultTints = tones[name] || tones.default
-        const isNeutral =
-          NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
+      if (state === 'hovered') {
+        const bg = mix(base.bg, tints[dark ? 300 : 600].hex)
+        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
 
-        let tints = tones[tone === 'default' ? name : tone] || defaultTints
+        return {
+          bg,
+          bg2: mix2(bg, tints[dark ? 50 : 950].hex),
+          border: mix(base.bg, tints[dark ? 300 : 600].hex),
+          fg: mix(base.bg, dark ? black.hex : white.hex),
+          muted: {
+            fg: mix(base.bg, tints[dark ? 800 : 200].hex),
+          },
+          accent: {
+            fg: mix2(bg, accentHue[dark ? 800 : 200].hex),
+          },
+          link: {
+            fg: mix2(bg, linkHue[dark ? 800 : 200].hex),
+          },
+          code: {
+            bg: mix(bg, tints[dark ? 950 : 50].hex),
+            fg: mix(base.bg, tints[dark ? 800 : 200].hex),
+          },
+          skeleton: {
+            from: skeletonFrom,
+            to: rgba(skeletonFrom, 0.5),
+          },
+        }
+      }
 
-        if (state === 'disabled') {
-          tints = defaultTints
+      if (state === 'pressed') {
+        const bg = mix(base.bg, tints[dark ? 200 : 800].hex)
+        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
 
-          const bg = base.bg
-          const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+        return {
+          bg: mix(base.bg, tints[dark ? 200 : 800].hex),
+          bg2: mix2(bg, tints[dark ? 50 : 950].hex),
+          border: mix(base.bg, tints[dark ? 200 : 800].hex),
+          fg: mix(base.bg, dark ? black.hex : white.hex),
+          muted: {
+            fg: mix(base.bg, tints[dark ? 800 : 200].hex),
+          },
+          accent: {
+            fg: mix2(bg, accentHue[dark ? 800 : 200].hex),
+          },
+          link: {
+            fg: mix2(bg, linkHue[dark ? 800 : 200].hex),
+          },
+          code: {
+            bg: mix(bg, tints[dark ? 950 : 50].hex),
+            fg: mix(base.bg, tints[dark ? 800 : 200].hex),
+          },
+          skeleton: {
+            from: skeletonFrom,
+            to: rgba(skeletonFrom, 0.5),
+          },
+        }
+      }
 
-          return {
-            bg,
-            bg2: mix(bg, tints[dark ? 950 : 50].hex),
-            border: mix(bg, tints[dark ? 950 : 50].hex),
-            fg: mix(bg, tints[dark ? 800 : 200].hex),
-            muted: {
-              fg: mix(bg, tints[dark ? 900 : 100].hex),
-            },
-            accent: {
-              fg: mix(bg, tints[dark ? 900 : 100].hex),
-            },
-            link: {
-              fg: mix(bg, tints[dark ? 900 : 100].hex),
-            },
-            code: {
-              bg,
-              fg: mix(bg, tints[dark ? 900 : 100].hex),
-            },
-            skeleton: {
-              from: rgba(skeletonFrom, 0.5),
-              to: rgba(skeletonFrom, 0.25),
-            },
-          }
+      if (state === 'selected') {
+        if (isNeutral) {
+          tints = tones.primary
         }
 
-        if (state === 'hovered') {
-          if (isNeutral) {
-            tints = tones.primary
-          }
+        const bg = mix(base.bg, tints[dark ? 200 : 800].hex)
+        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
 
-          const bg = mix(base.bg, tints[dark ? 950 : 50].hex)
-          const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
-
-          return {
-            bg,
-            bg2: mix(bg, tints[dark ? 950 : 50].hex),
-            border: mix(bg, tints[dark ? 900 : 100].hex),
-            fg: mix(base.bg, tints[dark ? 200 : 800].hex),
-            muted: {
-              fg: mix(base.bg, tints[dark ? 400 : 600].hex),
-            },
-            accent: {
-              fg: mix(base.bg, linkHue[dark ? 400 : 500].hex),
-            },
-            link: {
-              fg: mix(base.bg, linkHue[dark ? 400 : 600].hex),
-            },
-            code: {
-              bg: mix(bg, tints[dark ? 950 : 50].hex),
-              fg: mix(base.bg, tints[dark ? 400 : 600].hex),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
+        return {
+          bg,
+          bg2: mix2(bg, tints[dark ? 50 : 950].hex),
+          border: mix(base.bg, tints[dark ? 200 : 800].hex),
+          fg: mix(base.bg, dark ? black.hex : white.hex),
+          muted: {
+            fg: mix(base.bg, tints[dark ? 800 : 200].hex),
+          },
+          accent: {
+            fg: mix2(bg, accentHue[dark ? 800 : 200].hex),
+          },
+          link: {
+            fg: mix2(bg, linkHue[dark ? 800 : 200].hex),
+          },
+          code: {
+            bg: mix(bg, tints[dark ? 950 : 50].hex),
+            fg: mix(base.bg, tints[dark ? 800 : 200].hex),
+          },
+          skeleton: {
+            from: skeletonFrom,
+            to: rgba(skeletonFrom, 0.5),
+          },
         }
+      }
 
-        if (state === 'pressed') {
-          if (isNeutral) {
-            tints = tones.primary
-          }
+      // state: "enabled" | unknown
+      const bg = mix(base.bg, tints[dark ? 400 : 500].hex)
+      const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
 
-          const bg = mix(base.bg, tints[dark ? 900 : 100].hex)
-          const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+      return {
+        bg,
+        bg2: mix2(bg, tints[dark ? 50 : 950].hex),
+        border: mix(base.bg, tints[dark ? 400 : 500].hex),
+        fg: mix(base.bg, dark ? black.hex : white.hex),
+        muted: {
+          fg: mix(base.bg, tints[dark ? 900 : 100].hex),
+        },
+        accent: {
+          fg: mix2(bg, accentHue[dark ? 900 : 100].hex),
+        },
+        link: {
+          fg: mix2(bg, linkHue[dark ? 900 : 100].hex),
+        },
+        code: {
+          bg: mix(bg, tints[dark ? 950 : 50].hex),
+          fg: mix(base.bg, tints[dark ? 900 : 100].hex),
+        },
+        skeleton: {
+          from: skeletonFrom,
+          to: rgba(skeletonFrom, 0.5),
+        },
+      }
+    },
 
-          return {
-            bg,
-            bg2: mix(bg, tints[dark ? 950 : 50].hex),
-            border: mix(bg, tints[dark ? 900 : 100].hex),
-            fg: mix(base.bg, tints[dark ? 200 : 800].hex),
-            muted: {
-              fg: mix(base.bg, tints[dark ? 400 : 600].hex),
-            },
-            accent: {
-              fg: mix(bg, accentHue[dark ? 400 : 500].hex),
-            },
-            link: {
-              fg: mix(bg, linkHue[dark ? 400 : 600].hex),
-            },
-            code: {
-              bg: mix(bg, tints[dark ? 950 : 50].hex),
-              fg: mix(base.bg, tints[dark ? 400 : 600].hex),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
-        }
+    muted: ({ base, dark, name, state, tone }) => {
+      const mix = dark ? screen : multiply
+      const defaultTints = tones[name] || tones.default
+      const isNeutral =
+        NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
 
-        if (state === 'selected') {
-          if (isNeutral) {
-            tints = tones.primary
-          }
+      let tints = tones[tone === 'default' ? name : tone] || defaultTints
 
-          const bg = mix(base.bg, tints[dark ? 900 : 100].hex)
-          const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
-
-          return {
-            bg,
-            bg2: mix(bg, tints[dark ? 950 : 50].hex),
-            border: mix(bg, tints[dark ? 900 : 100].hex),
-            fg: mix(base.bg, tints[dark ? 200 : 800].hex),
-            muted: {
-              fg: mix(base.bg, tints[dark ? 400 : 600].hex),
-            },
-            accent: {
-              fg: mix(bg, accentHue[dark ? 400 : 500].hex),
-            },
-            link: {
-              fg: mix(bg, linkHue[dark ? 400 : 600].hex),
-            },
-            code: {
-              bg: mix(bg, tints[dark ? 950 : 50].hex),
-              fg: mix(base.bg, tints[dark ? 400 : 600].hex),
-            },
-            skeleton: {
-              from: skeletonFrom,
-              to: rgba(skeletonFrom, 0.5),
-            },
-          }
-        }
+      if (state === 'disabled') {
+        tints = defaultTints
 
         const bg = base.bg
         const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
@@ -972,19 +842,52 @@ export function useCustomStudioTheme({
         return {
           bg,
           bg2: mix(bg, tints[dark ? 950 : 50].hex),
+          border: mix(bg, tints[dark ? 950 : 50].hex),
+          fg: mix(bg, tints[dark ? 800 : 200].hex),
+          muted: {
+            fg: mix(bg, tints[dark ? 900 : 100].hex),
+          },
+          accent: {
+            fg: mix(bg, tints[dark ? 900 : 100].hex),
+          },
+          link: {
+            fg: mix(bg, tints[dark ? 900 : 100].hex),
+          },
+          code: {
+            bg,
+            fg: mix(bg, tints[dark ? 900 : 100].hex),
+          },
+          skeleton: {
+            from: rgba(skeletonFrom, 0.5),
+            to: rgba(skeletonFrom, 0.25),
+          },
+        }
+      }
+
+      if (state === 'hovered') {
+        if (isNeutral) {
+          tints = tones.primary
+        }
+
+        const bg = mix(base.bg, tints[dark ? 950 : 50].hex)
+        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+
+        return {
+          bg,
+          bg2: mix(bg, tints[dark ? 950 : 50].hex),
           border: mix(bg, tints[dark ? 900 : 100].hex),
-          fg: mix(base.bg, tints[dark ? 300 : 700].hex),
+          fg: mix(base.bg, tints[dark ? 200 : 800].hex),
           muted: {
             fg: mix(base.bg, tints[dark ? 400 : 600].hex),
           },
           accent: {
-            fg: mix(base.bg, accentHue[dark ? 400 : 500].hex),
+            fg: mix(base.bg, linkHue[dark ? 400 : 500].hex),
           },
           link: {
             fg: mix(base.bg, linkHue[dark ? 400 : 600].hex),
           },
           code: {
-            bg: mix(base.bg, tints[dark ? 950 : 50].hex),
+            bg: mix(bg, tints[dark ? 950 : 50].hex),
             fg: mix(base.bg, tints[dark ? 400 : 600].hex),
           },
           skeleton: {
@@ -992,242 +895,335 @@ export function useCustomStudioTheme({
             to: rgba(skeletonFrom, 0.5),
           },
         }
-      },
+      }
 
-      button: ({ base, mode, muted, solid }) => {
-        if (mode === 'bleed') {
-          return {
-            enabled: {
-              ...muted.enabled,
-              border: muted.enabled.bg,
-            },
-            hovered: {
-              ...muted.hovered,
-              border: muted.hovered.bg,
-            },
-            pressed: {
-              ...muted.pressed,
-              border: muted.pressed.bg,
-            },
-            selected: {
-              ...muted.selected,
-              border: muted.selected.bg,
-            },
-            disabled: {
-              ...muted.disabled,
-              border: muted.disabled.bg,
-            },
-          }
+      if (state === 'pressed') {
+        if (isNeutral) {
+          tints = tones.primary
         }
 
-        if (mode === 'ghost') {
-          return {
-            ...solid,
-            enabled: {
-              ...muted.enabled,
-              border: base.border,
-            },
-            disabled: muted.disabled,
-          }
-        }
-
-        return solid
-      },
-
-      card: ({ base, dark, muted, name, solid, state }) => {
-        if (state === 'hovered') {
-          return muted[name].hovered
-        }
-
-        if (state === 'disabled') {
-          return muted[name].disabled
-        }
-
-        const isNeutral = NEUTRAL_TONES.includes(name)
-        const tints = tones[name] || tones.default
-        const mix = dark ? screen : multiply
-
-        if (state === 'pressed') {
-          if (isNeutral) {
-            return muted.primary.pressed
-          }
-
-          return muted[name].pressed
-        }
-
-        if (state === 'selected') {
-          if (isNeutral) {
-            return solid.primary.enabled
-          }
-
-          return solid[name].enabled
-        }
-
-        const bg = base.bg
-        const skeletonFrom = mix(base.bg, tints[dark ? 900 : 100].hex)
+        const bg = mix(base.bg, tints[dark ? 900 : 100].hex)
+        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
 
         return {
           bg,
           bg2: mix(bg, tints[dark ? 950 : 50].hex),
-          fg: base.fg,
-          border: base.border,
+          border: mix(bg, tints[dark ? 900 : 100].hex),
+          fg: mix(base.bg, tints[dark ? 200 : 800].hex),
           muted: {
             fg: mix(base.bg, tints[dark ? 400 : 600].hex),
           },
           accent: {
-            fg: mix(base.bg, _hues.red[dark ? 400 : 500].hex),
+            fg: mix(bg, accentHue[dark ? 400 : 500].hex),
           },
           link: {
-            fg: mix(base.bg, _hues.blue[dark ? 400 : 600].hex),
+            fg: mix(bg, linkHue[dark ? 400 : 600].hex),
           },
           code: {
-            bg: mix(base.bg, tints[dark ? 950 : 50].hex),
-            fg: tints[dark ? 400 : 600].hex,
+            bg: mix(bg, tints[dark ? 950 : 50].hex),
+            fg: mix(base.bg, tints[dark ? 400 : 600].hex),
           },
           skeleton: {
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
         }
-      },
+      }
 
-      input: ({ base, dark, mode, state }) => {
-        const mix = dark ? screen : multiply
+      if (state === 'selected') {
+        if (isNeutral) {
+          tints = tones.primary
+        }
 
-        if (mode === 'invalid') {
-          const tints = tones.critical
+        const bg = mix(base.bg, tints[dark ? 900 : 100].hex)
+        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
 
-          return {
-            bg: mix(base.bg, tints[dark ? 950 : 50].hex),
+        return {
+          bg,
+          bg2: mix(bg, tints[dark ? 950 : 50].hex),
+          border: mix(bg, tints[dark ? 900 : 100].hex),
+          fg: mix(base.bg, tints[dark ? 200 : 800].hex),
+          muted: {
             fg: mix(base.bg, tints[dark ? 400 : 600].hex),
-            border: mix(base.bg, tints[dark ? 800 : 200].hex),
-            placeholder: mix(base.bg, tints[dark ? 600 : 400].hex),
-          }
+          },
+          accent: {
+            fg: mix(bg, accentHue[dark ? 400 : 500].hex),
+          },
+          link: {
+            fg: mix(bg, linkHue[dark ? 400 : 600].hex),
+          },
+          code: {
+            bg: mix(bg, tints[dark ? 950 : 50].hex),
+            fg: mix(base.bg, tints[dark ? 400 : 600].hex),
+          },
+          skeleton: {
+            from: skeletonFrom,
+            to: rgba(skeletonFrom, 0.5),
+          },
+        }
+      }
+
+      const bg = base.bg
+      const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+
+      return {
+        bg,
+        bg2: mix(bg, tints[dark ? 950 : 50].hex),
+        border: mix(bg, tints[dark ? 900 : 100].hex),
+        fg: mix(base.bg, tints[dark ? 300 : 700].hex),
+        muted: {
+          fg: mix(base.bg, tints[dark ? 400 : 600].hex),
+        },
+        accent: {
+          fg: mix(base.bg, accentHue[dark ? 400 : 500].hex),
+        },
+        link: {
+          fg: mix(base.bg, linkHue[dark ? 400 : 600].hex),
+        },
+        code: {
+          bg: mix(base.bg, tints[dark ? 950 : 50].hex),
+          fg: mix(base.bg, tints[dark ? 400 : 600].hex),
+        },
+        skeleton: {
+          from: skeletonFrom,
+          to: rgba(skeletonFrom, 0.5),
+        },
+      }
+    },
+
+    button: ({ base, mode, muted, solid }) => {
+      if (mode === 'bleed') {
+        return {
+          enabled: {
+            ...muted.enabled,
+            border: muted.enabled.bg,
+          },
+          hovered: {
+            ...muted.hovered,
+            border: muted.hovered.bg,
+          },
+          pressed: {
+            ...muted.pressed,
+            border: muted.pressed.bg,
+          },
+          selected: {
+            ...muted.selected,
+            border: muted.selected.bg,
+          },
+          disabled: {
+            ...muted.disabled,
+            border: muted.disabled.bg,
+          },
+        }
+      }
+
+      if (mode === 'ghost') {
+        return {
+          ...solid,
+          enabled: {
+            ...muted.enabled,
+            border: base.border,
+          },
+          disabled: muted.disabled,
+        }
+      }
+
+      return solid
+    },
+
+    card: ({ base, dark, muted, name, solid, state }) => {
+      if (state === 'hovered') {
+        return muted[name].hovered
+      }
+
+      if (state === 'disabled') {
+        return muted[name].disabled
+      }
+
+      const isNeutral = NEUTRAL_TONES.includes(name)
+      const tints = tones[name] || tones.default
+      const mix = dark ? screen : multiply
+
+      if (state === 'pressed') {
+        if (isNeutral) {
+          return muted.primary.pressed
         }
 
-        if (state === 'hovered') {
-          return {
-            bg: base.bg,
-            fg: base.fg,
-            border: mix(base.bg, _hues.gray[dark ? 700 : 300].hex),
-            placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
-          }
+        return muted[name].pressed
+      }
+
+      if (state === 'selected') {
+        if (isNeutral) {
+          return solid.primary.enabled
         }
 
-        if (state === 'disabled') {
-          return {
-            bg: mix(base.bg, _hues.gray[dark ? 950 : 50].hex),
-            fg: mix(base.bg, _hues.gray[dark ? 700 : 300].hex),
-            border: mix(base.bg, _hues.gray[dark ? 900 : 100].hex),
-            placeholder: mix(base.bg, _hues.gray[dark ? 800 : 200].hex),
-          }
-        }
+        return solid[name].enabled
+      }
 
-        if (state === 'readOnly') {
-          return {
-            bg: mix(base.bg, _hues.gray[dark ? 950 : 50].hex),
-            fg: mix(base.bg, _hues.gray[dark ? 200 : 800].hex),
-            border: mix(base.bg, _hues.gray[dark ? 800 : 200].hex),
-            placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
-          }
-        }
+      const bg = base.bg
+      const skeletonFrom = mix(base.bg, tints[dark ? 900 : 100].hex)
 
+      return {
+        bg,
+        bg2: mix(bg, tints[dark ? 950 : 50].hex),
+        fg: base.fg,
+        border: base.border,
+        muted: {
+          fg: mix(base.bg, tints[dark ? 400 : 600].hex),
+        },
+        accent: {
+          fg: mix(base.bg, _hues.red[dark ? 400 : 500].hex),
+        },
+        link: {
+          fg: mix(base.bg, _hues.blue[dark ? 400 : 600].hex),
+        },
+        code: {
+          bg: mix(base.bg, tints[dark ? 950 : 50].hex),
+          fg: tints[dark ? 400 : 600].hex,
+        },
+        skeleton: {
+          from: skeletonFrom,
+          to: rgba(skeletonFrom, 0.5),
+        },
+      }
+    },
+
+    input: ({ base, dark, mode, state }) => {
+      const mix = dark ? screen : multiply
+
+      if (mode === 'invalid') {
+        const tints = tones.critical
+
+        return {
+          bg: mix(base.bg, tints[dark ? 950 : 50].hex),
+          fg: mix(base.bg, tints[dark ? 400 : 600].hex),
+          border: mix(base.bg, tints[dark ? 800 : 200].hex),
+          placeholder: mix(base.bg, tints[dark ? 600 : 400].hex),
+        }
+      }
+
+      if (state === 'hovered') {
         return {
           bg: base.bg,
           fg: base.fg,
-          border: base.border,
+          border: mix(base.bg, _hues.gray[dark ? 700 : 300].hex),
           placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
         }
-      },
+      }
 
-      selectable: ({ base, muted, tone, solid, state }) => {
-        if (state === 'enabled') {
-          return {
-            ...muted[tone].enabled,
-            bg: base.bg,
-          }
-        }
-
-        if (state === 'pressed') {
-          if (tone === 'default') {
-            return muted.primary.pressed
-          }
-
-          return muted[tone].pressed
-        }
-
-        if (state === 'selected') {
-          if (tone === 'default') {
-            return solid.primary.enabled
-          }
-
-          return solid[tone].enabled
-        }
-
-        if (state === 'disabled') {
-          return {
-            ...muted[tone].disabled,
-            bg: base.bg,
-          }
-        }
-
-        return muted[tone][state]
-      },
-
-      spot: ({ base, dark, key }) => {
-        const mix = dark ? screen : multiply
-
-        return mix(base.bg, _hues[key][dark ? 400 : 500].hex)
-      },
-
-      syntax: ({ base, dark }) => {
-        const mix = dark ? screen : multiply
-        const mainShade = dark ? 400 : 600
-        const secondaryShade = dark ? 600 : 400
-
+      if (state === 'disabled') {
         return {
-          atrule: mix(base.bg, _hues.purple[mainShade].hex),
-          attrName: mix(base.bg, _hues.green[mainShade].hex),
-          attrValue: mix(base.bg, _hues.yellow[mainShade].hex),
-          attribute: mix(base.bg, _hues.yellow[mainShade].hex),
-          boolean: mix(base.bg, _hues.purple[mainShade].hex),
-          builtin: mix(base.bg, _hues.purple[mainShade].hex),
-          cdata: mix(base.bg, _hues.yellow[mainShade].hex),
-          char: mix(base.bg, _hues.yellow[mainShade].hex),
-          class: mix(base.bg, _hues.orange[mainShade].hex),
-          className: mix(base.bg, _hues.cyan[mainShade].hex),
-          comment: mix(base.bg, _hues.gray[secondaryShade].hex),
-          constant: mix(base.bg, _hues.purple[mainShade].hex),
-          deleted: mix(base.bg, _hues.red[mainShade].hex),
-          doctype: mix(base.bg, _hues.gray[secondaryShade].hex),
-          entity: mix(base.bg, _hues.red[mainShade].hex),
-          function: mix(base.bg, _hues.green[mainShade].hex),
-          hexcode: mix(base.bg, _hues.blue[mainShade].hex),
-          id: mix(base.bg, _hues.purple[mainShade].hex),
-          important: mix(base.bg, _hues.purple[mainShade].hex),
-          inserted: mix(base.bg, _hues.yellow[mainShade].hex),
-          keyword: mix(base.bg, _hues.magenta[mainShade].hex),
-          number: mix(base.bg, _hues.purple[mainShade].hex),
-          operator: mix(base.bg, _hues.magenta[mainShade].hex),
-          prolog: mix(base.bg, _hues.gray[secondaryShade].hex),
-          property: mix(base.bg, _hues.blue[mainShade].hex),
-          pseudoClass: mix(base.bg, _hues.yellow[mainShade].hex),
-          pseudoElement: mix(base.bg, _hues.yellow[mainShade].hex),
-          punctuation: mix(base.bg, _hues.gray[mainShade].hex),
-          regex: mix(base.bg, _hues.blue[mainShade].hex),
-          selector: mix(base.bg, _hues.red[mainShade].hex),
-          string: mix(base.bg, _hues.yellow[mainShade].hex),
-          symbol: mix(base.bg, _hues.purple[mainShade].hex),
-          tag: mix(base.bg, _hues.red[mainShade].hex),
-          unit: mix(base.bg, _hues.orange[mainShade].hex),
-          url: mix(base.bg, _hues.red[mainShade].hex),
-          variable: mix(base.bg, _hues.red[mainShade].hex),
+          bg: mix(base.bg, _hues.gray[dark ? 950 : 50].hex),
+          fg: mix(base.bg, _hues.gray[dark ? 700 : 300].hex),
+          border: mix(base.bg, _hues.gray[dark ? 900 : 100].hex),
+          placeholder: mix(base.bg, _hues.gray[dark ? 800 : 200].hex),
         }
-      },
-    })
+      }
 
-    return { ...defaultTheme, ...superTheme }
-  }, [accentHue, black.hex, focusRingHue, linkHue, tones, white.hex])
+      if (state === 'readOnly') {
+        return {
+          bg: mix(base.bg, _hues.gray[dark ? 950 : 50].hex),
+          fg: mix(base.bg, _hues.gray[dark ? 200 : 800].hex),
+          border: mix(base.bg, _hues.gray[dark ? 800 : 200].hex),
+          placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
+        }
+      }
+
+      return {
+        bg: base.bg,
+        fg: base.fg,
+        border: base.border,
+        placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
+      }
+    },
+
+    selectable: ({ base, muted, tone, solid, state }) => {
+      if (state === 'enabled') {
+        return {
+          ...muted[tone].enabled,
+          bg: base.bg,
+        }
+      }
+
+      if (state === 'pressed') {
+        if (tone === 'default') {
+          return muted.primary.pressed
+        }
+
+        return muted[tone].pressed
+      }
+
+      if (state === 'selected') {
+        if (tone === 'default') {
+          return solid.primary.enabled
+        }
+
+        return solid[tone].enabled
+      }
+
+      if (state === 'disabled') {
+        return {
+          ...muted[tone].disabled,
+          bg: base.bg,
+        }
+      }
+
+      return muted[tone][state]
+    },
+
+    spot: ({ base, dark, key }) => {
+      const mix = dark ? screen : multiply
+
+      return mix(base.bg, _hues[key][dark ? 400 : 500].hex)
+    },
+
+    syntax: ({ base, dark }) => {
+      const mix = dark ? screen : multiply
+      const mainShade = dark ? 400 : 600
+      const secondaryShade = dark ? 600 : 400
+
+      return {
+        atrule: mix(base.bg, _hues.purple[mainShade].hex),
+        attrName: mix(base.bg, _hues.green[mainShade].hex),
+        attrValue: mix(base.bg, _hues.yellow[mainShade].hex),
+        attribute: mix(base.bg, _hues.yellow[mainShade].hex),
+        boolean: mix(base.bg, _hues.purple[mainShade].hex),
+        builtin: mix(base.bg, _hues.purple[mainShade].hex),
+        cdata: mix(base.bg, _hues.yellow[mainShade].hex),
+        char: mix(base.bg, _hues.yellow[mainShade].hex),
+        class: mix(base.bg, _hues.orange[mainShade].hex),
+        className: mix(base.bg, _hues.cyan[mainShade].hex),
+        comment: mix(base.bg, _hues.gray[secondaryShade].hex),
+        constant: mix(base.bg, _hues.purple[mainShade].hex),
+        deleted: mix(base.bg, _hues.red[mainShade].hex),
+        doctype: mix(base.bg, _hues.gray[secondaryShade].hex),
+        entity: mix(base.bg, _hues.red[mainShade].hex),
+        function: mix(base.bg, _hues.green[mainShade].hex),
+        hexcode: mix(base.bg, _hues.blue[mainShade].hex),
+        id: mix(base.bg, _hues.purple[mainShade].hex),
+        important: mix(base.bg, _hues.purple[mainShade].hex),
+        inserted: mix(base.bg, _hues.yellow[mainShade].hex),
+        keyword: mix(base.bg, _hues.magenta[mainShade].hex),
+        number: mix(base.bg, _hues.purple[mainShade].hex),
+        operator: mix(base.bg, _hues.magenta[mainShade].hex),
+        prolog: mix(base.bg, _hues.gray[secondaryShade].hex),
+        property: mix(base.bg, _hues.blue[mainShade].hex),
+        pseudoClass: mix(base.bg, _hues.yellow[mainShade].hex),
+        pseudoElement: mix(base.bg, _hues.yellow[mainShade].hex),
+        punctuation: mix(base.bg, _hues.gray[mainShade].hex),
+        regex: mix(base.bg, _hues.blue[mainShade].hex),
+        selector: mix(base.bg, _hues.red[mainShade].hex),
+        string: mix(base.bg, _hues.yellow[mainShade].hex),
+        symbol: mix(base.bg, _hues.purple[mainShade].hex),
+        tag: mix(base.bg, _hues.red[mainShade].hex),
+        unit: mix(base.bg, _hues.orange[mainShade].hex),
+        url: mix(base.bg, _hues.red[mainShade].hex),
+        variable: mix(base.bg, _hues.red[mainShade].hex),
+      }
+    },
+  })
+
+  return { ...defaultTheme, ...superTheme }
 }
 
 // https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/color/scripts/generate.ts#L18-L58
@@ -1252,29 +1248,16 @@ function getColorHex(config: ColorHueConfig, tint: string): string {
 }
 
 // https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/color/scripts/generate.ts#L42-L58
-export function useTintsFromHue({
-  darkest,
-  lightest,
-  mid,
-  midPoint,
-  title,
-}: ColorHueConfig): ColorTints {
-  const config = useMemo<ColorHueConfig>(
-    () => ({ darkest, lightest, mid, midPoint, title }),
-    [darkest, lightest, mid, midPoint, title]
-  )
+export function createTintsFromHue(config: ColorHueConfig): ColorTints {
+  const initial = {} as ColorTints
+  const tints = COLOR_TINTS.reduce((acc, tint) => {
+    acc[tint] = {
+      title: `${config.title} ${tint}`,
+      hex: getColorHex(config, tint),
+    }
 
-  return useMemo(() => {
-    const initial = {} as ColorTints
-    const tints = COLOR_TINTS.reduce((acc, tint) => {
-      acc[tint] = {
-        title: `${config.title} ${tint}`,
-        hex: getColorHex(config, tint),
-      }
+    return acc
+  }, initial)
 
-      return acc
-    }, initial)
-
-    return tints
-  }, [config])
+  return tints
 }

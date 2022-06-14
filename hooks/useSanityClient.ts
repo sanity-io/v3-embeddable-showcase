@@ -112,5 +112,5 @@ export const postBySlugQuery = /* groq */ `
 // Grab the workspaces data we store in the Themer workspace
 // Used to generate the studio theme, and change minor aspects of the GUI like title and logo
 export const workspacesQuery = /* groq */ `
-*[_type == "workspace"]
+*[_type == "workspace"]{...,theme->{...,"palette": source.asset->metadata.palette}}
 `

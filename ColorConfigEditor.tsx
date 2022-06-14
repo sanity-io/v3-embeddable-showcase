@@ -41,7 +41,7 @@ import {
 import { unstable_batchedUpdates } from 'react-dom'
 import {
   useColorConfigState,
-  useTintsFromHue,
+  createTintsFromHue,
 } from 'hooks'
 import ColorTintsPreview from 'components/ColorTintsPreview'
 
@@ -81,7 +81,7 @@ export default function ColorConfigEditor({
     }),
     [previewState, title]
   )
-  const tints = useTintsFromHue(previewConfig)
+  const tints = createTintsFromHue(previewConfig)
   // Debounce updates as updating a ThemeProvider context is slow
   const [tick, setTick] = useState(0)
 

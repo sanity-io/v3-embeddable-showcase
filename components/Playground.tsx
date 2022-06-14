@@ -29,7 +29,7 @@ import {
 import { unstable_batchedUpdates } from 'react-dom'
 import ThemePreview from 'components/ThemePreview'
 import {
-  useCustomStudioTheme,
+  createStudioTheme,
   useColorConfigState,
   useTonesFromPreset,
   demoImagePalette,
@@ -62,7 +62,7 @@ function IndexPage() {
   const cautionColorState = useColorConfigState(colorConfigs.caution)
   const criticalColorState = useColorConfigState(colorConfigs.critical)
 
-  const previewTheme = useCustomStudioTheme({
+  const previewTheme = createStudioTheme({
     config: {
       default: {
         ...defaultColorState.state,

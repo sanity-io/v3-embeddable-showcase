@@ -2,7 +2,7 @@
 
 import { Card, Code, Grid, ThemeProvider, Box } from '@sanity/ui'
 
-import { ControlsIcon, MasterDetailIcon } from '@sanity/icons'
+import { ControlsIcon, MasterDetailIcon, CogIcon } from '@sanity/icons'
 import { useMemo } from 'react'
 import {
   type Config,
@@ -16,12 +16,12 @@ import {
   useColorScheme,
 } from 'sanity'
 
-import workspaces from 'sanity.config'
+// import workspaces from 'sanity.config'
 
 import {
   getColorConfigsFromImagePalette,
   useBasePath,
-  useCustomStudioTheme,
+  createStudioTheme,
   useMagicRouter,
 } from 'hooks'
 
@@ -87,13 +87,13 @@ function PreviewStudio(props: PreviewPaneProps) {
       // */
 
     return { ...config, title: props.document.displayed?.title }
-  }, [props.documentId, props.document.displayed?.title])
+  }, [ props.document.displayed?.title])
   const themeConfig = useMemo(() => {
     return theme?.palette
       ? getColorConfigsFromImagePalette({ palette: theme?.palette })
       : ({} as any)
   }, [theme?.palette])
-  const previewStudioTheme = useCustomStudioTheme({ config: themeConfig })
+  const previewStudioTheme = createStudioTheme({ config: themeConfig })
   return (
     <Card data-studio-preview height="fill">
       <StudioProvider
@@ -153,7 +153,8 @@ export const config: WorkspaceOptions = {
   schema: { types },
   plugins: [
     deskTool({
-      title: 'Themes',
+      title: 'Appearance',
+      icon: CogIcon,
       // /*
       defaultDocumentNode: (S, { schemaType }) => {
         if (schemaType === 'workspace') {
@@ -169,15 +170,13 @@ export const config: WorkspaceOptions = {
           ])
         }
       },
-      // TODO first solve the circular dependency issue
-      /*
       structure: (S, source) => {
         return S.list()
           .id('root')
           .title('Workspaces')
           .items([
-            ...workspaces.map((workspace) =>
-              S.documentListItem().id(workspace.name).schemaType('workspace')
+            ...['blog', 'blog-pro', 'blog-pro-max', 'themer'].map((id) =>
+              S.documentListItem().id(id).icon(MasterDetailIcon).schemaType('workspace')
             ),
             S.divider(),
             S.documentTypeListItem('theme').title('Themes').icon(ControlsIcon),
