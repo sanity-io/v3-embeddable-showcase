@@ -49,8 +49,8 @@ export default function Post({
     excerpt?: string
     author?: { name?: string; picture?: Image }
     slug?: string
-    content?: unknown} = data.post as any
-    const morePosts = data.morePosts || []
+    content?: unknown} = data?.post as any
+    const morePosts = data?.morePosts || []
     
 
   if (!router.isFallback && !slug) {
