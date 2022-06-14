@@ -10,10 +10,6 @@ import { config as themerConfig } from 'components/studios/themer'
 import { ControlsIcon, MasterDetailIcon, CogIcon } from '@sanity/icons'
 import { useMemo } from 'react'
 import {
-  type Config,
-  createConfig,
-  Studio,
-  type StudioProviderProps,
   type SchemaType,
   type SanityDocument,
   StudioProvider,
@@ -96,6 +92,8 @@ function PreviewStudio(
         return proBlogConfig
       case 'blog-pro-max':
         return maxProBlogConfig
+      case  'themer': 
+        return themerConfig
       default:
         return workspaces
     }
@@ -121,7 +119,6 @@ function PreviewStudio(
       <Grid columns={2} padding={4} gap={2} height="fill">
         <StudioProvider
           unstable_history={history}
-          // @ts-expect-error
           config={previewConfig}
           unstable_noAuthBoundary
         >
