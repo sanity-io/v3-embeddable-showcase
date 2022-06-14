@@ -119,6 +119,7 @@ function PreviewStudio(
       <Grid columns={2} padding={4} gap={2} height="fill">
         <StudioProvider
           unstable_history={history}
+          // @ts-expect-error
           config={previewConfig}
           unstable_noAuthBoundary
         >
