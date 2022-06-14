@@ -21,13 +21,14 @@ import Layout from 'components/blog/Layout'
 import PostTitle from 'components/blog/PostTitle'
 import { type SanityDocumentLike } from 'sanity'
 import { createPreviewSubscriptionHook } from 'next-sanity'
+import { type Image } from 'sanity'
 
 const usePreviewSubscription = createPreviewSubscriptionHook({
   projectId,
   dataset,
 })
 export default function Post({
-  data,
+  data: initialData,
   preview,
 }: {
   data?: SanityDocumentLike
@@ -35,17 +36,22 @@ export default function Post({
 }) {
   const router = useRouter()
 
-  // @ts-expect-error - figure out how to type these unknown things
-  const slug = data?.post?.slug
+  const slug = (initialData as any)?.post?.slug
   const {
-    data: { post: _post, morePosts },
+    data,
   } = usePreviewSubscription(postQuery, {
     params: { slug },
-    initialData: data,
+    initialData,
     enabled: preview && slug,
   })
-  // @TODO: fix typings
-  const post: any = _post
+  const post: {title?: string, coverImage?: Image
+    date?: string
+    excerpt?: string
+    author?: { name?: string; picture?: Image }
+    slug?: string
+    content?: unknown} = data.post as any
+    const morePosts = data.morePosts || []
+    
 
   if (!router.isFallback && !slug) {
     return <ErrorPage statusCode={404} />
@@ -83,7 +89,7 @@ export default function Post({
               <PostBody content={post.content} />
             </article>
             <SectionSeparator />
-            {(morePosts as any).length > 0 && (
+            {(morePosts as any)?.length > 0 && (
               <MoreStories posts={morePosts as any} />
             )}
           </>
