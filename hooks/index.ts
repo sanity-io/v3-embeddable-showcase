@@ -136,7 +136,7 @@ function screen(bg: string, fg: string): string {
 }
 
 // @TODO: report that the Studio isn't exporting RootTheme
-type StudioTheme = typeof defaultTheme
+export type StudioTheme = typeof defaultTheme
 
 const defaultTones: { [key: string]: ColorTints } = {
   default: _hues.gray,

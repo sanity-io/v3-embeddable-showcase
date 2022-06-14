@@ -31,6 +31,12 @@ export const types = [
     },
     fields: [
       {
+        name: 'basePath',
+        title: 'basePath',
+        type: 'string',
+        readonly: true,
+      },
+      {
         name: 'title',
         title: 'Title',
         type: 'string',
