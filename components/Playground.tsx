@@ -449,7 +449,7 @@ export default function Playground() {
   )
 }
 
-const StyledBottomSHeet = styled(BottomSheet)`
+export const StyledBottomSHeet = styled(BottomSheet)`
   --rsbs-antigap-scale-y: 0;
   --rsbs-backdrop-bg: rgba(0, 0, 0, 0.6);
   --rsbs-backdrop-opacity: 1;
@@ -638,7 +638,7 @@ const StyledBottomSHeet = styled(BottomSheet)`
     pointer-events: none;
   }
 `
-function BottomSheetStudio({
+export function BottomSheetStudio({
   children,
   label,
   sandbox,
