@@ -1,4 +1,3 @@
-import { black, white } from '@sanity/color'
 import Link from 'next/link'
 import Sandbox from 'components/Sandbox'
 
@@ -7,37 +6,26 @@ import { BottomSheet } from 'react-spring-bottom-sheet'
 import React, {
   useState,
   useMemo,
-  useLayoutEffect,
   useEffect,
-  Suspense,
 } from 'react'
 import styled from 'styled-components'
 import {
   defaultTheme,
   StudioProvider,
   StudioLayout,
-  useWorkspace,
 } from 'sanity'
 import {
   ThemeProvider,
-  Container,
   Card,
   Flex,
   Box,
   Text,
-  Label,
   Grid,
   Inline,
   Switch,
-  Checkbox,
-  createColorTheme,
   Select,
-  Avatar,
-  usePrefersDark,
 } from '@sanity/ui'
 
-import * as stable from 'sanity'
-import * as unstable from 'sanity/_unstable'
 import { unstable_batchedUpdates } from 'react-dom'
 import ThemePreview from 'components/ThemePreview'
 import {
@@ -47,12 +35,10 @@ import {
   demoImagePalette,
   useMagicRouter,
 } from 'hooks'
-import ColorTintsPreview from 'components/ColorTintsPreview'
 import ColorConfigEditor from 'ColorConfigEditor'
-import { useRouter } from 'sanity/_unstable'
 import ImagePalettePreview from 'components/ImagePalettePreview'
 import { useColorScheme } from 'hooks/useSanityStudio'
-console.log(stable, unstable)
+
 
 //const location = createLocation({pathname: '/desk'})
 //const history = createMemoryHistory({initialEntries: ['/'], initialIndex: 1})

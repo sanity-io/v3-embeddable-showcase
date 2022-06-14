@@ -1,4 +1,3 @@
-import { type SanityDocument } from '@sanity/types'
 import IndexPage from 'chapters/01'
 import {
   overlayDrafts,
