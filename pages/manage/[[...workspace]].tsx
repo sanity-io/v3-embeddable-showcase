@@ -1,16 +1,18 @@
 import StudioPage from 'components/StudioPage'
-import { Studio, type WorkspaceOptions } from 'sanity'
+import { config as themerConfig } from 'components/studios/themer'
 import {
-  overlayDrafts,
-  createClient,
-  createPreviewClient,
-  projectId,
-  dataset,
-  allPostsQuery,
-  workspacesQuery,
+  createClient, workspacesQuery
 } from 'hooks/useSanityClient'
+import { Studio, type WorkspaceOptions } from 'sanity'
 import config from 'sanity.config'
-import {config as themerConfig} from 'components/studios/themer'
+
+import {
+  useCustomStudioTheme,
+  useTonesFromPreset
+} from 'hooks'
+import { useMemo } from 'react'
+import workspaces from 'sanity.config'
+
 
 
 export interface Props {
@@ -20,6 +22,15 @@ export interface Props {
 // WTODO: query workspace theme data from themer
 export default function ManageWorkspace(props: Props) {
   console.log('ManageWorkspace!!',{props})
+  /*
+  const preset = useTonesFromPreset({ preset: 'imagepalette' })
+  const fallbackTheme = useCustomStudioTheme({ config: preset })
+  const theme = props.theme || fallbackTheme
+  const appliedTheme = useMemo(
+    () => workspaces.map((workspace) => ({ ...workspace, theme })),
+    [theme]
+  )
+  // */
   return (
     <StudioPage>
       <Studio config={config} unstable_noAuthBoundary />

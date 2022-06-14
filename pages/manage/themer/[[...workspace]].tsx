@@ -1,23 +1,10 @@
-import { useMemo } from 'react'
-import workspaces from 'sanity.config'
-import {
-  type StudioTheme,
-  useCustomStudioTheme,
-  useTonesFromPreset,
-} from 'hooks'
 import Singularity from 'components/Singularity'
-import StudioPage from 'components/StudioPage'
 
-import { Studio } from 'sanity'
 import { useEffect, useState } from 'react'
-import config from 'sanity.config'
+import ManageWorkspace, { type Props } from '../[[...workspace]]'
 
-interface Props {
-  theme: StudioTheme
-}
 
-export {getInitialProps} from '../[[...workspace]]'
-import ManageWorkspace from '../[[...workspace]]'
+export { getInitialProps } from '../[[...workspace]]'
 
 // Reuse getInitialProps from parent, and wrap parent for max code reuse
 
