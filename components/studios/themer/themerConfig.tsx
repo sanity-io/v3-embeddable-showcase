@@ -92,7 +92,7 @@ function PreviewStudio(
         return proBlogConfig
       case 'blog-pro-max':
         return maxProBlogConfig
-      case  'themer': 
+      case 'themer':
         return themerConfig
       default:
         return workspaces
