@@ -19,38 +19,46 @@ export function useColorScheme() {
 
 const { dataset } = themerConfig
 const client = createClient().withConfig({ dataset })
-export function useWorkspacesFromThemer(): Config {
-  const [data, setData] = useState([])
+export function useWorkspacesFromThemer(): [config: Config, loaded: boolean] {
+  const [loaded, setLoaded] = useState(false)
+  const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
   useEffect(() => {
-    client.fetch(workspacesQuery).then((workspaces) => {
-      console.log({ workspaces })
-      const withTones = workspaces.map((workspace: unknown) => {
-        const colorConfig = (workspace as any).theme?.palette
-          ? getColorConfigsFromImagePalette({
-              palette: (workspace as any).theme?.palette,
-            })
-          : undefined
-        debugger
-        // TODO add support for presets etc, for now it's ok to just grab colors from an image
-        const theme = colorConfig
-          ? createStudioTheme({ config: colorConfig })
-          : undefined
-        debugger
-        return { ...(workspace as any), theme }
+    client
+      .fetch(workspacesQuery)
+      .then((workspaces) => {
+        const withTones = workspaces.map((workspace: unknown) => {
+          const colorConfig = (workspace as any).theme?.palette
+            ? getColorConfigsFromImagePalette({
+                palette: (workspace as any).theme?.palette,
+              })
+            : undefined
+          debugger
+          // TODO add support for presets etc, for now it's ok to just grab colors from an image
+          const theme = colorConfig
+            ? createStudioTheme({ config: colorConfig })
+            : undefined
+          debugger
+          return { ...(workspace as any), theme }
+        })
+        setData(withTones)
       })
-      setData(withTones)
-    })
+      .catch(setError)
+      .finally(() => setLoaded(true))
   }, [])
-
-  console.log(data)
-  return useMemo<Config>(
+  if (error) {
+    // Rethrow to nearest boundary
+    throw error
+  }
+  const mapped = useMemo<Config>(
     () =>
       config.map((workspace) => {
-        debugger
-        if (!Array.isArray(data)) return workspace
-        const matched = data.find((conf: any) => conf.name === workspace.name)
-        debugger
-        if (!matched) return workspace
+        if (!data || !Array.isArray(data)) return workspace
+        // @ts-expect-error
+        const matched = data.find((conf: any) => conf._id === workspace.name)
+        if (!matched) {
+          return workspace
+        }
 
         const { title, theme, subtitle, logo } = matched
         return {
@@ -63,4 +71,5 @@ export function useWorkspacesFromThemer(): Config {
       }),
     [data]
   )
+  return [mapped, loaded]
 }

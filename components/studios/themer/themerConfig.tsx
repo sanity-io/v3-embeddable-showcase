@@ -79,7 +79,7 @@ function PreviewStudio(props: PreviewPaneProps) {
     // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
 
     // TODO rewrite to use the Studio hook instead
-    
+
     /*
     const found =
       workspaces.find((workspace) => workspace.name === props.documentId) ||
@@ -87,7 +87,7 @@ function PreviewStudio(props: PreviewPaneProps) {
       // */
 
     return { ...config, title: props.document.displayed?.title }
-  }, [ props.document.displayed?.title])
+  }, [props.document.displayed?.title])
   const themeConfig = useMemo(() => {
     return theme?.palette
       ? getColorConfigsFromImagePalette({ palette: theme?.palette })
@@ -142,7 +142,10 @@ import { projectId, dataset } from 'hooks/useSanityClient'
 import { deskTool } from 'sanity/desk'
 import { types } from './themerSchema'
 
-console.log('ThemeConfig', process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset)
+console.log(
+  'ThemeConfig',
+  process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset
+)
 
 export const config: WorkspaceOptions = {
   basePath: '/manage/themer',
@@ -176,7 +179,10 @@ export const config: WorkspaceOptions = {
           .title('Workspaces')
           .items([
             ...['blog', 'blog-pro', 'blog-pro-max', 'themer'].map((id) =>
-              S.documentListItem().id(id).icon(MasterDetailIcon).schemaType('workspace')
+              S.documentListItem()
+                .id(id)
+                .icon(MasterDetailIcon)
+                .schemaType('workspace')
             ),
             S.divider(),
             S.documentTypeListItem('theme').title('Themes').icon(ControlsIcon),
@@ -185,5 +191,4 @@ export const config: WorkspaceOptions = {
       // */
     }),
   ],
- 
 }

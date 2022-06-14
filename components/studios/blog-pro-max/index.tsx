@@ -12,7 +12,7 @@ import {
   ViewBuilder,
 } from 'sanity/desk'
 import { types } from 'components/studios/blog'
-import {defaultDocumentNode} from 'components/studios/blog-pro'
+import { defaultDocumentNode } from 'components/studios/blog-pro'
 
 // TODO add schema for site settings, feature flags
 

@@ -37,27 +37,26 @@ export default function Post({
   const router = useRouter()
 
   const slug = (initialData as any)?.post?.slug
-  const {
-    data,
-  } = usePreviewSubscription(postQuery, {
+  const { data } = usePreviewSubscription(postQuery, {
     params: { slug },
     initialData,
     enabled: preview && slug,
   })
-  const post: {title?: string, coverImage?: Image
+  const post: {
+    title?: string
+    coverImage?: Image
     date?: string
     excerpt?: string
     author?: { name?: string; picture?: Image }
     slug?: string
-    content?: unknown} = data?.post as any
-    const morePosts = data?.morePosts || []
-    
+    content?: unknown
+  } = data?.post as any
+  const morePosts = data?.morePosts || []
 
   if (!router.isFallback && !slug) {
     return <ErrorPage statusCode={404} />
   }
 
-  
   return (
     <Layout preview={preview}>
       <Container>
@@ -117,7 +116,7 @@ export async function getStaticProps({
     props: {
       preview,
       data: {
-        post: post || {} as any,
+        post: post || ({} as any),
         morePosts: overlayDrafts(morePosts),
       },
     },

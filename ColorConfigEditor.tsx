@@ -39,12 +39,8 @@ import {
   Heading,
 } from '@sanity/ui'
 import { unstable_batchedUpdates } from 'react-dom'
-import {
-  useColorConfigState,
-  createTintsFromHue,
-} from 'hooks'
+import { useColorConfigState, createTintsFromHue } from 'hooks'
 import ColorTintsPreview from 'components/ColorTintsPreview'
-
 
 interface Props {
   state: Omit<ColorHueConfig, 'title'>
@@ -94,8 +90,8 @@ export default function ColorConfigEditor({
       : // eslint-disable-next-line react-hooks/rules-of-hooks
         [tick > 0, unstable_batchedUpdates]
         // */
-        const working = tick > 0;
-        const startTransition = unstable_batchedUpdates;
+  const working = tick > 0
+  const startTransition = unstable_batchedUpdates
 
   // Reset syncing to parent if parent have new props
   useEffect(() => {
@@ -213,7 +209,7 @@ export default function ColorConfigEditor({
                   }
                 : setMidPreview
                 // */
-                setMidPreview
+              setMidPreview
             }
             setTick={setTick}
           />

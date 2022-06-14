@@ -3,17 +3,9 @@ import Sandbox from 'components/Sandbox'
 
 import config from 'sanity.config'
 import { BottomSheet } from 'react-spring-bottom-sheet'
-import React, {
-  useState,
-  useMemo,
-  useEffect,
-} from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import styled from 'styled-components'
-import {
-  defaultTheme,
-  StudioProvider,
-  StudioLayout,
-} from 'sanity'
+import { defaultTheme, StudioProvider, StudioLayout } from 'sanity'
 import {
   ThemeProvider,
   Card,
@@ -38,7 +30,6 @@ import {
 import ColorConfigEditor from 'ColorConfigEditor'
 import ImagePalettePreview from 'components/ImagePalettePreview'
 import { useColorScheme } from 'hooks/useSanityStudio'
-
 
 //const location = createLocation({pathname: '/desk'})
 //const history = createMemoryHistory({initialEntries: ['/'], initialIndex: 1})
