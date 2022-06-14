@@ -52,11 +52,16 @@ export const types = [
         type: 'string',
       },
       {
+        name: 'description',
+        title: 'Description',
+        type: 'string',
+      },
+      /* {
         name: 'subtitle',
         title: 'subtitle',
         type: 'string',
         readOnly: true,
-      },
+      }, */
       /*
       navbar?: {
         components?: {
