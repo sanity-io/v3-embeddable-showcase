@@ -6,9 +6,14 @@ import { config as themerConfig } from 'components/studios/themer'
 import { projectId, dataset } from 'hooks/useSanityClient'
 
 export default createConfig([
+  // manage/blog
   blogConfig,
+  // manage/blog-pro
   blogWithPreviews,
+  // manage/blog-max-pro
+  // wp-admin/index.php
   wordpressConfig,
+  // manage/themer
   themerConfig,
   // May not work as it uses different routing
   {
