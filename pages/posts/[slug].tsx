@@ -60,7 +60,7 @@ export default function Post({
     content?: unknown
   } = data?.post as any
   const morePosts = data?.morePosts || []
-  const history = useMagicRouter(`${config[0].basePath}/desk/post;${post._id}`)
+  const history = useMagicRouter(`${config[0].basePath}/desk/post;${post?._id}`)
 
   if (!router.isFallback && !slug) {
     return <ErrorPage statusCode={404} />
@@ -99,7 +99,7 @@ export default function Post({
                 />
 
                 <PostBody content={post.content} />
-                {post._id && <EditPost preview={preview} _id={post._id} />}
+                {post?._id && <EditPost preview={preview} _id={post?._id} />}
               </article>
               <SectionSeparator />
               {(morePosts as any)?.length > 0 && (

@@ -19,7 +19,7 @@ export default function ManageWorkspace(props: Props) {
       const maybeSingularity = document.querySelectorAll(
         '[data-studio-preview]'
       )
-      if (maybeSingularity.length > 3 && !singularity) {
+      if (maybeSingularity.length > 1 && !singularity) {
         setSingularity(true)
       }
     }
