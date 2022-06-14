@@ -11,13 +11,19 @@ import { StudioProvider, type SanityDocumentLike } from 'sanity'
 import config from 'sanity.config'
 import { useMagicRouter } from 'hooks'
 
-export function WrappedWhoIisEditing({documentId}: {documentId: string}) {
-  const history = useMagicRouter(`${config[0].basePath}/desk/post;${documentId}`)
-  return <StudioProvider
-  config={config[0]}
-  unstable_history={history}
-  unstable_noAuthBoundary
-><WhoIsEditing documentId={documentId} /></StudioProvider>
+export function WrappedWhoIisEditing({ documentId }: { documentId: string }) {
+  const history = useMagicRouter(
+    `${config[0].basePath}/desk/post;${documentId}`
+  )
+  return (
+    <StudioProvider
+      config={config[0]}
+      unstable_history={history}
+      unstable_noAuthBoundary
+    >
+      <WhoIsEditing documentId={documentId} />
+    </StudioProvider>
+  )
 }
 
 export default function Index({
@@ -44,11 +50,7 @@ export default function Index({
         </Head>
         <Container>
           <Intro />
-          {heroPost?._id && (
-                        
-                          <WrappedWhoIisEditing documentId={heroPost._id} />
-                        
-                      )}
+          {heroPost?._id && <WrappedWhoIisEditing documentId={heroPost._id} />}
           {heroPost && (
             <HeroPost
               title={heroPost.title}

@@ -20,7 +20,7 @@ export default function PostPreview({
   slug?: string
 }) {
   return (
-    <div>
+    <>
       <div className="mb-5">
         <CoverImage slug={slug} image={coverImage} />
       </div>
@@ -34,6 +34,6 @@ export default function PostPreview({
       {author && (
         <Avatar name={author?.name || 'No Name'} picture={author?.picture} />
       )}
-    </div>
+    </>
   )
 }

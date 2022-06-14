@@ -160,12 +160,12 @@ export function WhoIsEditing({ documentId }: { documentId: string }) {
 
   return (
     <>
-      <div className="flex text-center flex-start max-h-8">
+      <div className="flex-start flex max-h-8 text-center">
         <DocumentPreviewPresence presence={presence} />
       </div>
       <div
         hidden
-        className="sticky bottom-0 right-0 max-w-full p-4 text-white bg-black"
+        className="sticky bottom-0 right-0 max-w-full bg-black p-4 text-white"
       >
         <p>Presence!</p>
         {/* 
