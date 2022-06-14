@@ -11,7 +11,6 @@ import { StyledBottomSHeet } from './Playground'
 export function EditPost({ preview, _id }: { preview: boolean; _id: string }) {
   // Getting the entire Studio context provider is overkill, but is fast
 
-  
   return (
     <ThemeProvider theme={defaultTheme} scheme="light">
       {!preview && <EditPostLink _id={_id} />}
@@ -30,6 +29,7 @@ function EditPostLink({ _id }: { _id: string }) {
   )
 }
 
+let lastOpen = false
 function EditPostButton({ _id }: { _id: string }) {
   const history = useMagicRouter(`/manage/blog/desk/post;${_id}/posts/`)
   const shouldBottomSheet = true
@@ -42,15 +42,21 @@ function EditPostButton({ _id }: { _id: string }) {
         tone="primary"
         mode="bleed"
         size={1}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          lastOpen = true
+          setOpen(true)
+        }}
       >
         <EditIcon /> Edit
       </Button>
       <StyledBottomSHeet
-       blocking={false}
-       scrollLocking={false}
-        open={shouldBottomSheet && open}
-        onDismiss={() => setOpen(false)}
+        blocking={false}
+        scrollLocking={false}
+        open={lastOpen && open && shouldBottomSheet}
+        onDismiss={() => {
+          setOpen(false)
+          lastOpen = false
+        }}
         defaultSnap={({ snapPoints, lastSnap }) =>
           lastSnap ?? Math.min(...snapPoints)
         }
