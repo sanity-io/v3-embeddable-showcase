@@ -10,7 +10,7 @@ export default function PostHeader({
   date,
   author,
 }: {
-  title?: string
+  title?: React.ReactNode
   coverImage?: Image
   date?: string
   author?: { name?: string; picture?: Image }
@@ -24,7 +24,7 @@ export default function PostHeader({
         )}
       </div>
       <div className="mb-8 sm:mx-0 md:mb-16">
-        <CoverImage title={title} image={coverImage} />
+        <CoverImage image={coverImage} />
       </div>
       <div className="mx-auto max-w-2xl">
         <div className="mb-6 block md:hidden">

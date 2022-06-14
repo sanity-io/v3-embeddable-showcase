@@ -5,12 +5,10 @@ import { type Image as SanityImage } from '@sanity/types'
 import { urlForImage } from 'hooks/useSanityClient'
 
 export default function CoverImage({
-  title,
   slug,
   image: source,
 }: {
   slug?: string
-  title?: string
   image?: SanityImage
 }) {
   const image = source ? (
@@ -23,7 +21,6 @@ export default function CoverImage({
         layout="responsive"
         width={2000}
         height={1000}
-        alt={`Cover Image for ${title}`}
         src={urlForImage(source).height(1000).width(2000).url()}
       />
     </div>
@@ -35,7 +32,7 @@ export default function CoverImage({
     <div className="sm:mx-0">
       {slug ? (
         <Link href={`/posts/${slug}`}>
-          <a aria-label={title}>{image}</a>
+          <a>{image}</a>
         </Link>
       ) : (
         image

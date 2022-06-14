@@ -22,7 +22,7 @@ export default function PostPreview({
   return (
     <div>
       <div className="mb-5">
-        <CoverImage slug={slug} title={title} image={coverImage} />
+        <CoverImage slug={slug} image={coverImage} />
       </div>
       <h3 className="mb-3 text-3xl leading-snug">
         <Link href={`/posts/${slug}`}>

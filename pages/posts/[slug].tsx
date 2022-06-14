@@ -24,7 +24,13 @@ import { createPreviewSubscriptionHook } from 'next-sanity'
 import { type Image } from 'sanity'
 import { EditPost } from 'components/SuperLivePreview'
 import config from 'sanity.config'
-import { DocumentPresence, useDocumentPresence, useGlobalPresence, usePresenceStore, DocumentPreviewPresence } from 'sanity/_unstable'
+import {
+  DocumentPresence,
+  useDocumentPresence,
+  useGlobalPresence,
+  usePresenceStore,
+  DocumentPreviewPresence,
+} from 'sanity/_unstable'
 import { useEffect, useState } from 'react'
 import { createMemoryHistory } from 'history'
 import { useMagicRouter } from 'hooks'
@@ -92,7 +98,20 @@ export default function Post({
                 </Head>
 
                 <PostHeader
-                  title={post.title}
+                  title={
+                    <>
+                      {post?._id && (
+                        <StudioProvider
+                          config={config[0]}
+                          unstable_history={history}
+                          unstable_noAuthBoundary
+                        >
+                          <WhoIsEditing documentId={post._id} />
+                        </StudioProvider>
+                      )}
+                      {post.title}
+                    </>
+                  }
                   coverImage={post.coverImage}
                   date={post.date}
                   author={post.author}
@@ -109,23 +128,17 @@ export default function Post({
           )}
         </Container>
       </Layout>
-      {post?._id && (
-        <StudioProvider config={config[0]} unstable_history={history} unstable_noAuthBoundary>
-          <Logger documentId={post._id} />
-        </StudioProvider>
-      )}
     </>
   )
   // */
 }
 
-function Logger({ documentId }: { documentId: string }) {
-  
+function WhoIsEditing({ documentId }: { documentId: string }) {
   const global = useGlobalPresence()
   const presence = useDocumentPresence(documentId)
 
   useEffect(() => {
-    console.log({presence, documentId, global})
+    console.log({ presence, documentId, global })
     if (presence) {
       console.log('presence', { presence })
     }
@@ -134,18 +147,28 @@ function Logger({ documentId }: { documentId: string }) {
   const presenceStore = usePresenceStore()
   const [presence2, setPresence2] = useState<DocumentPresence[]>([])
   useEffect(() => {
-    const subscription = presenceStore.documentPresence(documentId).subscribe((nextPresence) => {
-      console.log('presenceStore updated', nextPresence)
-      setPresence2(nextPresence)
-    })
+    const subscription = presenceStore
+      .documentPresence(documentId)
+      .subscribe((nextPresence) => {
+        console.log('presenceStore updated', nextPresence)
+        setPresence2(nextPresence)
+      })
     return () => {
       subscription.unsubscribe()
     }
   }, [documentId, presenceStore])
 
-  return <><div className='sticky top-2 right-2'><DocumentPreviewPresence presence={presence} /></div><div className='sticky bottom-0 right-0 max-w-full p-4 text-white bg-black'>
-    <p>Presence!</p>
-    
+  return (
+    <>
+      <div className="flex-start flex max-h-8 text-center">
+        <DocumentPreviewPresence presence={presence} />
+      </div>
+      <div
+        hidden
+        className="sticky bottom-0 right-0 max-w-full bg-black p-4 text-white"
+      >
+        <p>Presence!</p>
+        {/* 
     <details>
       <summary>Global</summary>
       <pre>{JSON.stringify(global, null, 2)}</pre>
@@ -157,9 +180,10 @@ function Logger({ documentId }: { documentId: string }) {
     <details>
       <summary>presenceStore ({documentId})</summary>
       <pre>{JSON.stringify(presence2, null, 2)}</pre>
-    </details>
-  </div>
-  </>
+    </details> */}
+      </div>
+    </>
+  )
 }
 
 export async function getStaticProps({
