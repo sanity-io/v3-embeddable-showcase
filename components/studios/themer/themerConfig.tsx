@@ -210,6 +210,7 @@ export const config: WorkspaceOptions = {
         if (schemaType === 'workspace') {
           // @TODO: icons!
           return S.document().views([
+            S.view.form(),
             S.view
               .component((props) => <PreviewStudio {...props} scheme="light" />)
               .id('light')
