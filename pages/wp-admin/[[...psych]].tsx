@@ -1,12 +1,22 @@
 import StudioPage from 'components/StudioPage'
 import { useMemo } from 'react'
-import { Studio } from 'sanity'
-import config from 'sanity.config'
+import { Studio} from 'sanity'
+import workspaces from 'sanity.config'
+import {type StudioTheme,useCustomStudioTheme, useTonesFromPreset} from 'hooks'
 
-export default function WordpressRoute() {
+interface Props {
+  theme: StudioTheme
+}
+
+export default function WordpressRoute(props: Props) {
+  const preset = useTonesFromPreset({preset: 'web3'})
+  const fallbackTheme = useCustomStudioTheme({config: preset})
+  const theme = props.theme || fallbackTheme
+  const appliedTheme = useMemo(() => workspaces.map(workspace => ({... workspace, theme})), [theme])
+  console.log({theme})
   return (
     <StudioPage>
-      <Studio config={config} unstable_noAuthBoundary />
+      <Studio config={appliedTheme} unstable_noAuthBoundary />
     </StudioPage>
   )
 }
