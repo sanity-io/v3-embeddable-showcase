@@ -12,6 +12,8 @@ interface Props {
   theme: StudioTheme
 }
 
+// @TODO re-export and do what pages/manage/workspace is doing
+
 export default function WordpressRoute(props: Props) {
   const preset = useTonesFromPreset({ preset: 'web3' })
   const fallbackTheme = useCustomStudioTheme({ config: preset })

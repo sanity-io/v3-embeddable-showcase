@@ -139,7 +139,7 @@ import { deskTool } from 'sanity/desk'
 import { types } from './themerSchema'
 
 export const config: WorkspaceOptions = {
-  basePath: '/themer',
+  basePath: '/manage/themer',
   projectId,
   dataset: process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset,
   plugins: [

@@ -1,8 +1,6 @@
 import { projectId, dataset } from 'hooks/useSanityClient'
 import { type WorkspaceOptions } from 'sanity'
 import BlogPreviewWrapper from './BlogPreviewWrapper'
-import { config as blogConfig } from 'components/studios/blog'
-import StudioPage from 'components/StudioPage'
 import { useMemo } from 'react'
 import { Studio, createConfig } from 'sanity'
 
@@ -55,7 +53,7 @@ const DetailPreview = ({
   )
 }
 
-const defaultDocumentNode: DefaultDocumentNodeResolver = (
+export const defaultDocumentNode: DefaultDocumentNodeResolver = (
   S,
   { schemaType }
 ) => {
@@ -97,11 +95,11 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (
 }
 
 export const config: WorkspaceOptions = {
-  basePath: '/chapter-01',
+  basePath: '/manage/blog-pro',
   projectId,
   dataset,
   plugins: [deskTool({ defaultDocumentNode })],
-  name: 'blog-previews',
-  title: 'Blog with Previews',
+  name: 'blog-pro',
+  title: 'Pro Blog',
   schema: { types },
 }

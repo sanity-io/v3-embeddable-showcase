@@ -5,7 +5,7 @@ import { deskTool } from 'sanity/desk'
 import { types } from './blogSchema'
 
 export const config: WorkspaceOptions = {
-  basePath: '/studio',
+  basePath: '/manage/blog',
   projectId,
   dataset,
   plugins: [deskTool()],
