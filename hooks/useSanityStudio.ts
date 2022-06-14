@@ -33,12 +33,12 @@ export function useWorkspacesFromThemer(): [config: Config, loaded: boolean] {
                 palette: (workspace as any).theme?.palette,
               })
             : undefined
-          debugger
+
           // TODO add support for presets etc, for now it's ok to just grab colors from an image
           const theme = colorConfig
             ? createStudioTheme({ config: colorConfig })
             : undefined
-          debugger
+
           return { ...(workspace as any), theme }
         })
         setData(withTones)

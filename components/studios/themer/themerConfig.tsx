@@ -14,6 +14,7 @@ import {
   StudioProvider,
   StudioLayout,
   useColorScheme,
+  useWorkspaces,
 } from 'sanity'
 
 // import workspaces from 'sanity.config'
@@ -73,21 +74,20 @@ function PreviewStudio(props: PreviewPaneProps) {
     // @ts-expect-error
     props.document.displayed.logo?.asset?._ref,
   ])
-  console.warn('logos', logos)
+  const workspaces = useWorkspaces()
+  
   // console.warn({ themes, theme, logo: props.document.displayed.logo })
   const previewConfig = useMemo(() => {
     // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
 
-    // TODO rewrite to use the Studio hook instead
-
-    /*
+    
     const found =
       workspaces.find((workspace) => workspace.name === props.documentId) ||
       workspaces[0]
       // */
 
     return { ...config, title: props.document.displayed?.title }
-  }, [props.document.displayed?.title])
+  }, [props.document.displayed?.title, props.documentId, workspaces])
   const themeConfig = useMemo(() => {
     return theme?.palette
       ? getColorConfigsFromImagePalette({ palette: theme?.palette })
