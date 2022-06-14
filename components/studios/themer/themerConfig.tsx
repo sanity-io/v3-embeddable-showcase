@@ -46,7 +46,7 @@ function PreviewStudio(props: PreviewPaneProps) {
   const { scheme } = useColorScheme()
   const { data } = useListeningQuery(/* groq */ `{
       "themes": *[_type == "theme" || _type == "logo"]{_id, "palette": source.asset->metadata.palette},
-      "logos": *[_type == "studio"]{"_ref": logo.asset._ref, "palette": logo.asset->metadata.palette},
+      "logos": *[_type == "workspace"]{"_ref": logo.asset._ref, "palette": logo.asset->metadata.palette},
     }`)
   const themes = data?.themes
   const logos = data?.logos
@@ -147,7 +147,7 @@ export const config: WorkspaceOptions = {
       title: 'Themes',
       // /*
       defaultDocumentNode: (S, { schemaType }) => {
-        if (schemaType === 'studio') {
+        if (schemaType === 'workspace') {
           return S.document().views([
             S.view.form(),
             S.view.component(PreviewStudio).title('Preview'),
@@ -166,7 +166,7 @@ export const config: WorkspaceOptions = {
           .title('Workspaces')
           .items([
             ...workspaces.map((workspace) =>
-              S.documentListItem().id(workspace.name).schemaType('studio')
+              S.documentListItem().id(workspace.name).schemaType('workspace')
             ),
             S.divider(),
             S.documentTypeListItem('theme').title('Themes').icon(ControlsIcon),

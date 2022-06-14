@@ -19,9 +19,9 @@ export const types = [
     ],
   },
   {
-    name: 'studio',
+    name: 'workspace',
     type: 'document',
-    title: 'Studio',
+    title: 'Workspace',
     preview: {
       select: {
         title: 'title',
@@ -68,9 +68,7 @@ export const types = [
         name: 'icon',
         title: 'Icon',
         type: 'image',
-        options: {
-          hotspot: true,
-        },
+        readonly: true,
       },
       /*
       navbar?: {
