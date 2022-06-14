@@ -1,6 +1,10 @@
 import { useMemo } from 'react'
 import workspaces from 'sanity.config'
-import {type StudioTheme,useCustomStudioTheme, useTonesFromPreset} from 'hooks'
+import {
+  type StudioTheme,
+  useCustomStudioTheme,
+  useTonesFromPreset,
+} from 'hooks'
 import Singularity from 'components/Singularity'
 import StudioPage from 'components/StudioPage'
 
@@ -13,10 +17,13 @@ interface Props {
 }
 
 export default function ThemeStudioPage(props: Props) {
-  const preset = useTonesFromPreset({preset: 'imagepalette'})
-  const fallbackTheme = useCustomStudioTheme({config: preset})
+  const preset = useTonesFromPreset({ preset: 'imagepalette' })
+  const fallbackTheme = useCustomStudioTheme({ config: preset })
   const theme = props.theme || fallbackTheme
-  const appliedTheme = useMemo(() => workspaces.map(workspace => ({... workspace, theme})), [theme])
+  const appliedTheme = useMemo(
+    () => workspaces.map((workspace) => ({ ...workspace, theme })),
+    [theme]
+  )
   const [singularity, setSingularity] = useState(false)
   // eslint-disable-next-line react-hooks/exhaustive-deps,react-hooks/rules-of-hooks
   useEffect(() => {

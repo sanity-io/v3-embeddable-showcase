@@ -1,9 +1,13 @@
-import { postQuery, projectId,urlForImage,
+import {
+  postQuery,
+  projectId,
+  urlForImage,
   dataset,
   createClient,
   overlayDrafts,
   postSlugsQuery,
-  createPreviewClient,} from 'hooks/useSanityClient'
+  createPreviewClient,
+} from 'hooks/useSanityClient'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
@@ -15,20 +19,26 @@ import PostHeader from 'components/blog/PostHeader'
 import SectionSeparator from 'components/blog/SectionSeparator'
 import Layout from 'components/blog/Layout'
 import PostTitle from 'components/blog/PostTitle'
-import {type SanityDocumentLike } from 'sanity'
+import { type SanityDocumentLike } from 'sanity'
 import { createPreviewSubscriptionHook } from 'next-sanity'
 
 const usePreviewSubscription = createPreviewSubscriptionHook({
   projectId,
   dataset,
 })
-export default function Post({ data, preview }: {data?: SanityDocumentLike, preview: boolean}) {
+export default function Post({
+  data,
+  preview,
+}: {
+  data?: SanityDocumentLike
+  preview: boolean
+}) {
   const router = useRouter()
 
   // @ts-expect-error - figure out how to type these unknown things
   const slug = data?.post?.slug
   const {
-    data: { post:_post, morePosts },
+    data: { post: _post, morePosts },
   } = usePreviewSubscription(postQuery, {
     params: { slug },
     initialData: data,
@@ -51,9 +61,7 @@ export default function Post({ data, preview }: {data?: SanityDocumentLike, prev
           <>
             <article>
               <Head>
-                <title>
-                  {post.title} | Next.js Blog Example with Sanity
-                </title>
+                <title>{post.title} | Next.js Blog Example with Sanity</title>
                 {post.coverImage && (
                   <meta
                     key="ogImage"
@@ -75,7 +83,9 @@ export default function Post({ data, preview }: {data?: SanityDocumentLike, prev
               <PostBody content={post.content} />
             </article>
             <SectionSeparator />
-            {(morePosts as any).length > 0 && <MoreStories posts={(morePosts as any)} />}
+            {(morePosts as any).length > 0 && (
+              <MoreStories posts={morePosts as any} />
+            )}
           </>
         )}
       </Container>
@@ -83,7 +93,13 @@ export default function Post({ data, preview }: {data?: SanityDocumentLike, prev
   )
 }
 
-export async function getStaticProps({ params, preview = false }: {params: {slug?: string}, preview?: boolean}) {
+export async function getStaticProps({
+  params,
+  preview = false,
+}: {
+  params: { slug?: string }
+  preview?: boolean
+}) {
   const client = preview ? createPreviewClient() : createClient()
   const { post, morePosts } = await client.fetch(postQuery, {
     slug: params.slug,
