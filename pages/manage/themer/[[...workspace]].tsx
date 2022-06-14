@@ -16,7 +16,12 @@ interface Props {
   theme: StudioTheme
 }
 
-export default function ThemeStudioPage(props: Props) {
+export {getInitialProps} from '../[[...workspace]]'
+
+// Reuse getInitialProps from parent, and wrap parent for max code reuse
+
+export default function ThemerWorkspace(props: Props) {
+  console.log('Yes!')
   const preset = useTonesFromPreset({ preset: 'imagepalette' })
   const fallbackTheme = useCustomStudioTheme({ config: preset })
   const theme = props.theme || fallbackTheme

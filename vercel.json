@@ -43,6 +43,10 @@
     {
       "source": "/themer",
       "destination": "/manage/themer"
+    },
+    {
+      "source": "/wp-admin",
+      "destination": "/wp-admin/index_php"
     }
   ]
 }
