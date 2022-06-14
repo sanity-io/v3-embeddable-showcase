@@ -20,6 +20,8 @@ export {getInitialProps} from '../[[...workspace]]'
 
 // Reuse getInitialProps from parent, and wrap parent for max code reuse
 
+//TODO move logic out, it only executes on initial page load. If 
+// Studio routing triggers it then next won't see it
 export default function ThemerWorkspace(props: Props) {
   console.log('Yes!')
   const preset = useTonesFromPreset({ preset: 'imagepalette' })

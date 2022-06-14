@@ -1,6 +1,7 @@
 import { createConfig } from 'sanity'
 import { config as blogConfig } from 'components/studios/blog'
-import { config as blogWithPreviews } from 'components/studios/blog-pro'
+import { config as proBlogConfig } from 'components/studios/blog-pro'
+import { config as maxProBlogConfig } from 'components/studios/blog-pro-max'
 import { config as wordpressConfig } from 'components/studios/wordpress'
 import { config as themerConfig } from 'components/studios/themer'
 import { projectId, dataset } from 'hooks/useSanityClient'
@@ -9,8 +10,9 @@ export default createConfig([
   // manage/blog
   blogConfig,
   // manage/blog-pro
-  blogWithPreviews,
+  proBlogConfig,
   // manage/blog-max-pro
+  maxProBlogConfig,
   // wp-admin/index.php
   wordpressConfig,
   // manage/themer
