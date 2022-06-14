@@ -11,7 +11,7 @@ export { getInitialProps } from '../[[...workspace]]'
 //TODO move logic out, it only executes on initial page load. If 
 // Studio routing triggers it then next won't see it
 export default function ThemerWorkspace(props: Props) {
-  console.log('ManageWorkspace Yes!')
+  console.log('ManageWorkspace Yes!', {props})
   
   const [singularity, setSingularity] = useState(false)
   // eslint-disable-next-line react-hooks/exhaustive-deps,react-hooks/rules-of-hooks
