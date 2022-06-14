@@ -163,7 +163,7 @@ export const config: WorkspaceOptions = {
       structure: (S, source) => {
         return S.list()
           .id('root')
-          .title('Studios')
+          .title('Workspaces')
           .items([
             ...workspaces.map((workspace) =>
               S.documentListItem().id(workspace.name).schemaType('studio')
