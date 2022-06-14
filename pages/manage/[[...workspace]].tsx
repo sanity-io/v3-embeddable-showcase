@@ -38,10 +38,11 @@ export default function ManageWorkspace(props: Props) {
   )
 }
 
-export async function getInitialProps(): Promise<{props: Props}> {
+export async function getServerProps(): Promise<{props: Props}> {
   const {dataset} = themerConfig
   const client = createClient().withConfig({dataset})
   const data = await client.fetch(workspacesQuery)
+
   return {
     props: {
       workspaces: Array.isArray(data) ? data : [],
