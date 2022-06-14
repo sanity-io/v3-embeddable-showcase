@@ -1,14 +1,30 @@
 {
   "rewrites": [
     {
-      "source": "/studio-on-demand",
-      "destination": "/studio-on-demand/index.html"
+      "source": "/__native-esm__",
+      "destination": "/__native-esm__/studio.html"
     }
   ],
   "redirects": [
     {
       "source": "/studio-on-demand/index.html",
-      "destination": "/studio-on-demand"
+      "destination": "/__native-esm__"
+    },
+    {
+      "source": "/studio-on-demand",
+      "destination": "/__native-esm__"
+    },
+    {
+      "source": "/__native-esm__/",
+      "destination": "/__native-esm__"
+    },
+    {
+      "source": "/__native-esm__/index.html",
+      "destination": "/__native-esm__"
+    },
+    {
+      "source": "/__native-esm__/index",
+      "destination": "/__native-esm__"
     }
   ]
 }
