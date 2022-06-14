@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Sandbox from 'components/Sandbox'
 
 import { useId } from '@reach/auto-id'
-import { BottomSheet } from 'react-spring-bottom-sheet'
 import { useState, useMemo, useLayoutEffect, useEffect } from 'react'
 import styled from 'styled-components'
 import {
@@ -39,21 +38,13 @@ import {
   parseColor,
   Heading,
 } from '@sanity/ui'
-import { createMemoryHistory, createHashHistory, type Listener } from 'history'
-import * as stable from 'sanity'
-import * as unstable from 'sanity/_unstable'
 import { unstable_batchedUpdates } from 'react-dom'
-import ThemePreview from 'components/ThemePreview'
 import {
-  useCustomStudioTheme,
   useColorConfigState,
   useTintsFromHue,
 } from 'hooks'
 import ColorTintsPreview from 'components/ColorTintsPreview'
-import * as React from 'react'
-import { math } from 'polished'
 
-console.log({ React })
 
 interface Props {
   state: Omit<ColorHueConfig, 'title'>
@@ -94,12 +85,17 @@ export default function ColorConfigEditor({
   // Debounce updates as updating a ThemeProvider context is slow
   const [tick, setTick] = useState(0)
 
+  /*
+  // Workspaces fails to load in React v18, unclear why
   const [working, startTransition] =
     'useTransition' in React
       ? // eslint-disable-next-line react-hooks/rules-of-hooks
         React.useTransition()
       : // eslint-disable-next-line react-hooks/rules-of-hooks
         [tick > 0, unstable_batchedUpdates]
+        // */
+        const working = tick > 0;
+        const startTransition = unstable_batchedUpdates;
 
   // Reset syncing to parent if parent have new props
   useEffect(() => {
@@ -116,6 +112,7 @@ export default function ColorConfigEditor({
         previewState.midPoint != state.midPoint
       if (changed) {
         const { mid, midPoint, darkest, lightest } = previewState
+        /*
         if ('startTransition' in React) {
           startTransition(() => {
             setMid(mid)
@@ -125,6 +122,7 @@ export default function ColorConfigEditor({
           })
           return
         }
+        // */
         if ('requestIdleCallback' in window) {
           const idleCB = requestIdleCallback(
             () => {
@@ -207,12 +205,15 @@ export default function ColorConfigEditor({
             label="Color"
             value={previewState.mid}
             setValue={
+              /*
               'startTransition' in React
                 ? (value) => {
                     setMidPreview(value)
                     startTransition(() => setMid(value))
                   }
                 : setMidPreview
+                // */
+                setMidPreview
             }
             setTick={setTick}
           />
