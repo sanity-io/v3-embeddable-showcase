@@ -19,6 +19,7 @@ import {
   StudioProvider,
   StudioLayout,
   useColorScheme,
+  defaultTheme,
   useWorkspaces,
 } from 'sanity'
 
@@ -46,8 +47,14 @@ type PreviewPaneProps = {
   }
 }
 
-function PreviewStudio(props: PreviewPaneProps) {
-  const { scheme } = useColorScheme()
+type StudioTheme = typeof defaultTheme
+
+function PreviewStudio(
+  props: PreviewPaneProps & { scheme?: 'light' | 'dark'; split?: boolean }
+) {
+  const { scheme: _scheme } = useColorScheme()
+  const scheme = props.scheme || _scheme
+  const { split } = props
   const { data } = useListeningQuery(/* groq */ `{
       "themes": *[_type == "theme" || _type == "logo"]{_id, "palette": source.asset->metadata.palette},
       "logos": *[_type == "workspace"]{"_ref": logo.asset._ref, "palette": logo.asset->metadata.palette},
@@ -99,8 +106,40 @@ function PreviewStudio(props: PreviewPaneProps) {
       : ({} as any)
   }, [theme?.palette])
   const previewStudioTheme = createStudioTheme({ config: themeConfig })
-  console.log('PreviewStudio', props)
+  const splitScreenTheme = useMemo<StudioTheme>(() => {
+    const superTheme: Partial<StudioTheme> = {}
+
+    // Split screen, emulates what happens if they were wrapped in iframes
+    superTheme.media = previewStudioTheme.media.map((media) => media / 2)
+
+    return { ...previewStudioTheme, ...superTheme }
+  }, [previewStudioTheme])
   const history = useMagicRouter('/')
+
+  if (split) {
+    return (
+      <Grid columns={2} padding={4} gap={2} height="fill">
+        <StudioProvider
+          unstable_history={history}
+          // @ts-expect-error
+          config={previewConfig}
+          unstable_noAuthBoundary
+        >
+          <ThemeProvider key="light" scheme="light" theme={splitScreenTheme}>
+            <Card height="fill" radius={1} shadow={2}>
+              <StudioLayout />
+            </Card>
+          </ThemeProvider>
+          <ThemeProvider key="dark" scheme="dark" theme={splitScreenTheme}>
+            <Card height="fill" radius={1} shadow={2}>
+              <StudioLayout />
+            </Card>
+          </ThemeProvider>
+        </StudioProvider>
+      </Grid>
+    )
+  }
+
   return (
     <Card data-studio-preview height="fill">
       <StudioProvider
@@ -169,9 +208,20 @@ export const config: WorkspaceOptions = {
       // /*
       defaultDocumentNode: (S, { schemaType }) => {
         if (schemaType === 'workspace') {
+          // @TODO: icons!
           return S.document().views([
-            S.view.form(),
-            S.view.component(PreviewStudio).title('Preview'),
+            S.view
+              .component((props) => <PreviewStudio {...props} scheme="light" />)
+              .id('light')
+              .title('Light'),
+            S.view
+              .component((props) => <PreviewStudio {...props} scheme="dark" />)
+              .id('dark')
+              .title('Dark'),
+            S.view
+              .component((props) => <PreviewStudio {...props} split />)
+              .id('split')
+              .title('Split'),
           ])
         }
         if (schemaType === 'theme') {
