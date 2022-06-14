@@ -32,7 +32,6 @@ function EditPostLink({ _id }: { _id: string }) {
 let lastOpen = false
 function EditPostButton({ _id }: { _id: string }) {
   const history = useMagicRouter(`/manage/blog/desk/post;${_id}/posts/`)
-  const shouldBottomSheet = true
   const [open, setOpen] = useState(false)
 
   return (
@@ -50,9 +49,10 @@ function EditPostButton({ _id }: { _id: string }) {
         <EditIcon /> Edit
       </Button>
       <StyledBottomSHeet
-        blocking={false}
-        scrollLocking={false}
-        open={lastOpen && open && shouldBottomSheet}
+        // blocking={false}
+        // scrollLocking={false}
+        // open={lastOpen && open && shouldBottomSheet}
+        open={open}
         onDismiss={() => {
           setOpen(false)
           lastOpen = false
