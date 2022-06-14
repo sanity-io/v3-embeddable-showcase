@@ -6,23 +6,29 @@ import { config as wordpressConfig } from 'components/studios/wordpress'
 import { config as themerConfig } from 'components/studios/themer'
 import { projectId, dataset } from 'hooks/useSanityClient'
 
-export default createConfig([
-  // manage/blog
-  blogConfig,
-  // manage/blog-pro
-  proBlogConfig,
-  // manage/blog-max-pro
-  maxProBlogConfig,
-  // wp-admin/index.php
-  wordpressConfig,
-  // manage/themer
-  themerConfig,
-  // May not work as it uses different routing
-  {
-    name: 'studio-on-demand',
-    title: 'V3 + ESM = <3',
-    basePath: '/__native-esm__/studio',
-    dataset,
-    projectId,
-  },
-])
+const workspaces = createConfig(
+  [
+    // manage/blog
+    blogConfig,
+    // manage/blog-pro
+    proBlogConfig,
+    // manage/blog-max-pro
+    maxProBlogConfig,
+    // wp-admin/index.php
+    wordpressConfig,
+    // manage/themer
+    themerConfig,
+    // May not work as it uses different routing
+    {
+      name: 'studio-on-demand',
+      title: 'V3 + ESM = <3',
+      basePath: '/__native-esm__/studio',
+      dataset,
+      projectId,
+    },
+  ].filter(Boolean)
+)
+
+console.log('is it good?', workspaces, themerConfig)
+
+export default workspaces
