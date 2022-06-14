@@ -2,6 +2,10 @@
 
 import { Card, Code, Grid, ThemeProvider, Box } from '@sanity/ui'
 
+import { config as blogConfig } from 'components/studios/blog'
+import { config as proBlogConfig } from 'components/studios/blog-pro'
+import { config as maxProBlogConfig } from 'components/studios/blog-pro-max'
+import { config as themerConfig } from 'components/studios/themer'
 import { ControlsIcon, MasterDetailIcon, CogIcon } from '@sanity/icons'
 import { useMemo } from 'react'
 import {
@@ -42,8 +46,7 @@ type PreviewPaneProps = {
 }
 
 function PreviewStudio(props: PreviewPaneProps) {
-  console.log('PreviewStudio', props)
-  const history = useMagicRouter('/')
+  
   const { scheme } = useColorScheme()
   const { data } = useListeningQuery(/* groq */ `{
       "themes": *[_type == "theme" || _type == "logo"]{_id, "palette": source.asset->metadata.palette},
@@ -79,21 +82,32 @@ function PreviewStudio(props: PreviewPaneProps) {
   // console.warn({ themes, theme, logo: props.document.displayed.logo })
   const previewConfig = useMemo(() => {
     // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
-
+    switch(props.documentId) {
+      case 'blog':
+        return blogConfig
+      case 'blog-pro':
+        return proBlogConfig
+      case 'blog-pro-max':
+        return maxProBlogConfig
+      default:
+        return workspaces
+    }
     
     const found =
       workspaces.find((workspace) => workspace.name === props.documentId) ||
       workspaces[0]
       // */
 
-    return { ...config, title: props.document.displayed?.title }
-  }, [props.document.displayed?.title, props.documentId, workspaces])
+    return found
+  }, [props.documentId, workspaces])
   const themeConfig = useMemo(() => {
     return theme?.palette
       ? getColorConfigsFromImagePalette({ palette: theme?.palette })
       : ({} as any)
   }, [theme?.palette])
   const previewStudioTheme = createStudioTheme({ config: themeConfig })
+  console.log('PreviewStudio', props)
+  const history = useMagicRouter('/')
   return (
     <Card data-studio-preview height="fill">
       <StudioProvider
