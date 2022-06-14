@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import Sandbox from 'components/Sandbox'
 
-import config from 'sanity.config'
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import React, { useState, useMemo, useEffect } from 'react'
 import styled from 'styled-components'
+import { config as themerConfig } from 'components/studios/themer'
+
 import { defaultTheme, StudioProvider, StudioLayout } from 'sanity'
 import {
   ThemeProvider,
@@ -39,10 +40,8 @@ const RENDER_INLINE = true
 console.debug({ defaultTheme })
 type StudioTheme = typeof defaultTheme
 function IndexPage() {
-  console.warn(config[0].basePath || '/')
   // const history = useMagicRouter(config[0].basePath || '/')
-  const history = useMagicRouter('/studio/desk')
-  console.log(history)
+  const history = useMagicRouter('/')
 
   const [preset, setPreset] = useState<any>('imagepalette')
   const colorConfigs = useTonesFromPreset({ preset })
@@ -95,7 +94,7 @@ function IndexPage() {
   // each tone have a range.
   // A tone is generated in Sanity using darkest, mid, lightest, and midPoint
   // const studioConfig = useMemo(() => getWordpressConfig({ basePath: '/' }), [])
-  const studioConfig = config[0]
+  const studioConfig = themerConfig
 
   return (
     <>

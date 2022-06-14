@@ -46,7 +46,6 @@ type PreviewPaneProps = {
 }
 
 function PreviewStudio(props: PreviewPaneProps) {
-  
   const { scheme } = useColorScheme()
   const { data } = useListeningQuery(/* groq */ `{
       "themes": *[_type == "theme" || _type == "logo"]{_id, "palette": source.asset->metadata.palette},
@@ -78,11 +77,11 @@ function PreviewStudio(props: PreviewPaneProps) {
     props.document.displayed.logo?.asset?._ref,
   ])
   const workspaces = useWorkspaces()
-  
+
   // console.warn({ themes, theme, logo: props.document.displayed.logo })
   const previewConfig = useMemo(() => {
     // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
-    switch(props.documentId) {
+    switch (props.documentId) {
       case 'blog':
         return blogConfig
       case 'blog-pro':
@@ -92,13 +91,6 @@ function PreviewStudio(props: PreviewPaneProps) {
       default:
         return workspaces
     }
-    
-    const found =
-      workspaces.find((workspace) => workspace.name === props.documentId) ||
-      workspaces[0]
-      // */
-
-    return found
   }, [props.documentId, workspaces])
   const themeConfig = useMemo(() => {
     return theme?.palette
@@ -168,6 +160,28 @@ export const config: WorkspaceOptions = {
   name: 'themer',
   title: 'Themer',
   schema: { types },
+  document: {
+    actions: (prev) => [],
+    badges: () => [],
+    resolveProductionUrl: async (context) => {
+      // @TODO query secret doc for preview URL
+    },
+    /*  resolveNewDocumentOptions: (prev) => [{
+        tone: 'positive',
+        //modal,
+        onHandle: (...args) => {console.log('onHandle', ...args)},
+        label: 'Test confirm modal',
+        shortcut: 'mod+p',
+      },...prev], */
+  },
+  navbar: {
+    components: {
+      ToolMenu: (props) => {
+        console.log('ToolMenu', props)
+        return <button>Jo!</button>
+      },
+    },
+  },
   plugins: [
     deskTool({
       title: 'Appearance',
