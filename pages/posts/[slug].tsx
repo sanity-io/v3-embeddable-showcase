@@ -133,7 +133,7 @@ export default function Post({
   // */
 }
 
-function WhoIsEditing({ documentId }: { documentId: string }) {
+export function WhoIsEditing({ documentId }: { documentId: string }) {
   const global = useGlobalPresence()
   const presence = useDocumentPresence(documentId)
 
@@ -160,12 +160,12 @@ function WhoIsEditing({ documentId }: { documentId: string }) {
 
   return (
     <>
-      <div className="flex-start flex max-h-8 text-center">
+      <div className="flex text-center flex-start max-h-8">
         <DocumentPreviewPresence presence={presence} />
       </div>
       <div
         hidden
-        className="sticky bottom-0 right-0 max-w-full bg-black p-4 text-white"
+        className="sticky bottom-0 right-0 max-w-full p-4 text-white bg-black"
       >
         <p>Presence!</p>
         {/* 

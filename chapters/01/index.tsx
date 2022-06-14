@@ -6,12 +6,26 @@ import HeroPost from 'components/blog/HeroPost'
 import Intro from 'components/blog/Intro'
 import Layout from 'components/blog/Layout'
 import Link from 'next/link'
+import { WhoIsEditing } from 'pages/posts/[slug]'
+import { StudioProvider, type SanityDocumentLike } from 'sanity'
+import config from 'sanity.config'
+import { useMagicRouter } from 'hooks'
+
+export function WrappedWhoIisEditing({documentId}: {documentId: string}) {
+  const history = useMagicRouter(`${config[0].basePath}/desk/post;${documentId}`)
+  return <StudioProvider
+  config={config[0]}
+  unstable_history={history}
+  unstable_noAuthBoundary
+><WhoIsEditing documentId={documentId} /></StudioProvider>
+}
 
 export default function Index({
   allPosts,
   preview,
 }: {
   allPosts: {
+    _id?: string
     title?: string
     coverImage?: Image
     date?: string
@@ -30,6 +44,11 @@ export default function Index({
         </Head>
         <Container>
           <Intro />
+          {heroPost?._id && (
+                        
+                          <WrappedWhoIisEditing documentId={heroPost._id} />
+                        
+                      )}
           {heroPost && (
             <HeroPost
               title={heroPost.title}
