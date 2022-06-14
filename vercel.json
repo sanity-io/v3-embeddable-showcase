@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/__native-esm__/studio(.*)",
+      "destination": "/__native-esm__/studio.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/studio-on-demand/index.html",

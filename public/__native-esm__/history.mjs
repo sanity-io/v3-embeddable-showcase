@@ -4,8 +4,7 @@ export function createHistory(basePath) {
   const { createMemoryHistory } = _history
   const history = createMemoryHistory({
     initialEntries: [
-      window.history.state?.['studio-on-demand']?.location?.pathname ||
-        basePath,
+      window.history.state?.['studio-on-demand']?.location?.pathname || '/',
     ],
   })
 

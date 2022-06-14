@@ -18,7 +18,7 @@ const workspaces = createConfig([
   {
     name: 'studio-on-demand',
     title: 'V3 + ESM = <3',
-    basePath: '/__native-esm__/studio',
+    basePath: '/__native-esm__/desk.html',
     dataset,
     projectId,
   },

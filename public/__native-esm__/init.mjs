@@ -14,9 +14,14 @@ export async function init(mountNode) {
 
   const history = createHistory(basePath)
   const config = createConfig([
-    ...workspaces.filter((workspace) => workspace.name !== name),
+    ...workspaces
+      .filter((workspace) => workspace.name !== name)
+      .map((workspace) => ({
+        ...workspace,
+        basePath: '/' + workspace.basePath.split('/')[2],
+      })),
     {
-      basePath,
+      basePath: '/',
       title,
       name,
       projectId,
