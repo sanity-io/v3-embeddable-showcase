@@ -78,11 +78,15 @@ function PreviewStudio(props: PreviewPaneProps) {
   const previewConfig = useMemo(() => {
     // TODO show a not found message, or maybe there's a component alraedy we can ready for rendering the workspace
 
+    // TODO rewrite to use the Studio hook instead
+    
+    /*
     const found =
       workspaces.find((workspace) => workspace.name === props.documentId) ||
       workspaces[0]
+      // */
 
-    return { ...found, title: props.document.displayed?.title }
+    return { ...config, title: props.document.displayed?.title }
   }, [props.documentId, props.document.displayed?.title])
   const themeConfig = useMemo(() => {
     return theme?.palette
@@ -138,10 +142,15 @@ import { projectId, dataset } from 'hooks/useSanityClient'
 import { deskTool } from 'sanity/desk'
 import { types } from './themerSchema'
 
+console.log('ThemeConfig', process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset)
+
 export const config: WorkspaceOptions = {
   basePath: '/manage/themer',
   projectId,
   dataset: process.env.NEXT_PUBLIC_SANITY_THEMER_DATASET || dataset,
+  name: 'themer',
+  title: 'Themer',
+  schema: { types },
   plugins: [
     deskTool({
       title: 'Themes',
@@ -160,6 +169,8 @@ export const config: WorkspaceOptions = {
           ])
         }
       },
+      // TODO first solve the circular dependency issue
+      /*
       structure: (S, source) => {
         return S.list()
           .id('root')
@@ -175,7 +186,5 @@ export const config: WorkspaceOptions = {
       // */
     }),
   ],
-  name: 'themer',
-  title: 'Themer',
-  schema: { types },
+ 
 }
