@@ -109,7 +109,7 @@ export default function Post({
           )}
         </Container>
       </Layout>
-      {post._id && (
+      {post?._id && (
         <StudioProvider config={config[0]} unstable_history={history} unstable_noAuthBoundary>
           <Logger documentId={post._id} />
         </StudioProvider>
