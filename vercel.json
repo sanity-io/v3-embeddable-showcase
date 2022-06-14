@@ -33,19 +33,19 @@
       "destination": "/__native-esm__/studio.html"
     },
     {
-      "source": "/studio",
+      "source": "/studio(.*)",
       "destination": "/manage/blog"
     },
     {
-      "source": "/chapter-01",
+      "source": "/chapter-01(.*)",
       "destination": "/manage/blog-pro"
     },
     {
-      "source": "/themer",
+      "source": "/themer(.*)",
       "destination": "/manage/themer"
     },
     {
-      "source": "/wp-admin",
+      "source": "/wp-admin(.*)",
       "destination": "/wp-admin/index_php"
     }
   ]
