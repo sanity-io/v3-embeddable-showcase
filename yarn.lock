@@ -568,20 +568,28 @@
   resolved "https://registry.yarnpkg.com/@portabletext/types/-/types-1.0.3.tgz#b23f832ae5331c1d864195a95eba34abf340597e"
   integrity sha512-SDDsdury2SaTI2D5Ea6o+Y39SSZMYHRMWJHxkxYl3yzFP0n/0EknOhoXcoaV+bxGr2dTTqZi2TOEj+uWYuavSw==
 
-"@reach/auto-id@0.16.0", "@reach/auto-id@^0.13.2", "@reach/auto-id@^0.16.0":
+"@reach/auto-id@0.15.2":
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.15.2.tgz#289640b47545a32f3621469ba497ba5c040b349c"
+  integrity sha512-K7d5qhYBlBHIjy+IpSEAyMeB5VTZ9m0tZdr7xyNd5Fr6oeefHEvJiJGuQpubP5bDoe7ShC3y0VQGFmT0g7KcZg==
+  dependencies:
+    "@reach/utils" "0.15.2"
+    tslib "^2.3.0"
+
+"@reach/auto-id@^0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.13.2.tgz#6c7fe7142285707b0f38b2f556f32accb467df32"
+  integrity sha512-dWeXt6xxjN+NPRoZFXgmNkF89t8MEPsWLYjIIDf3gNXA/Dxaoytc9YBOIfVGpDSpdOwxPpxOu8rH+4Y3Jk2gHA==
+  dependencies:
+    "@reach/utils" "0.13.2"
+    tslib "^2.1.0"
+
+"@reach/auto-id@^0.16.0":
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.16.0.tgz#dfabc3227844e8c04f8e6e45203a8e14a8edbaed"
   integrity sha512-5ssbeP5bCkM39uVsfQCwBBL+KT8YColdnMN5/Eto6Rj7929ql95R3HZUOkKIvj7mgPtEb60BLQxd1P3o6cjbmg==
   dependencies:
     "@reach/utils" "0.16.0"
-    tslib "^2.3.0"
-
-"@reach/auto-id@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.17.0.tgz#60cce65eb7a0d6de605820727f00dfe2b03b5f17"
-  integrity sha512-ud8iPwF52RVzEmkHq1twuqGuPA+moreumUHdtgvU3sr3/15BNhwp3KyDLrKKSz0LP1r3V4pSdyF9MbYM8BoSjA==
-  dependencies:
-    "@reach/utils" "0.17.0"
     tslib "^2.3.0"
 
 "@reach/portal@^0.13.0":
@@ -601,18 +609,18 @@
     tslib "^2.1.0"
     warning "^4.0.3"
 
-"@reach/utils@0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.16.0.tgz#5b0777cf16a7cab1ddd4728d5d02762df0ba84ce"
-  integrity sha512-PCggBet3qaQmwFNcmQ/GqHSefadAFyNCUekq9RrWoaU9hh/S4iaFgf2MBMdM47eQj5i/Bk0Mm07cP/XPFlkN+Q==
+"@reach/utils@0.15.2":
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.15.2.tgz#a63a761eb36266bf33d65cb91520dd85a04ae116"
+  integrity sha512-Lr1SJ5X4hEjD/M0TAonURM8wytM/JuPSuIP7t+e5cil34pThyLsBvTGeNfmpSgaLJ5vlsv0x9u6g4SRAEr84Og==
   dependencies:
     tiny-warning "^1.0.3"
     tslib "^2.3.0"
 
-"@reach/utils@0.17.0":
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.17.0.tgz#3d1d2ec56d857f04fe092710d8faee2b2b121303"
-  integrity sha512-M5y8fCBbrWeIsxedgcSw6oDlAMQDkl5uv3VnMVJ7guwpf4E48Xlh1v66z/1BgN/WYe2y8mB/ilFD2nysEfdGeA==
+"@reach/utils@0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.16.0.tgz#5b0777cf16a7cab1ddd4728d5d02762df0ba84ce"
+  integrity sha512-PCggBet3qaQmwFNcmQ/GqHSefadAFyNCUekq9RrWoaU9hh/S4iaFgf2MBMdM47eQj5i/Bk0Mm07cP/XPFlkN+Q==
   dependencies:
     tiny-warning "^1.0.3"
     tslib "^2.3.0"

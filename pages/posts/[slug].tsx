@@ -119,7 +119,7 @@ export async function getStaticProps({
     props: {
       preview,
       data: {
-        post,
+        post: post || {} as any,
         morePosts: overlayDrafts(morePosts),
       },
     },
