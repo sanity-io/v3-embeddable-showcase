@@ -1,25 +1,7 @@
-# TODO
+# Using the Studio Within an Application in v3
 
-Docs are coming.
+[Before digging into the code and what's happening here, checkout the introduction to V3.](https://github.com/sanity-io/sanity/discussions/3339)
 
-## Demos
+[And the demo this project was made for.](https://youtu.be/298mlqa1-Hk)
 
-### Studio mounted as ESM URL import
-
-In V3, as we replace the parts system with ESM, we're now able to serve the Studio over ESM CDNs like Skypack
-
-[/studio](https://v3-embeddable-showcase.sanity.build/studio)
-
-### Studio mounted under a NextJS route
-
-Setup as a ` pages/studio/[[...tool]].tsx`` route in Next. It's loaded by giving  `<Studio/>`the same code as you have in`sanity.config.ts` as a prop:
-
-```tsx
-import {Studio} from 'sanity'
-
-export default function StudioRoute() {
-  return <Studio config={...} />
-}
-```
-
-[/studio](https://v3-embeddable-showcase.sanity.build/studio)
+And have fun exploring! If you have any questions you can reach us [on Slack](https://slack.sanity.io/), and [our new GitHub Discussions](https://github.com/sanity-io/sanity/discussions) site ✨
