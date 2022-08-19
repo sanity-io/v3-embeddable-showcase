@@ -1,3 +1,7 @@
+# Note, we have released a new version of `next-sanity` with support for embedding Studio v3 inside Next.js
+
+> Please use that instead of using this repo as a guideline of how to do it. :bow:
+
 # Using the Studio Within an Application in v3
 
 [Before digging into the code and what's happening here, checkout the introduction to V3.](https://github.com/sanity-io/sanity/discussions/3339)
