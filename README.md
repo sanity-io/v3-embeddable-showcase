@@ -1,4 +1,4 @@
-# Note, we have released a new version of `next-sanity` with support for embedding Studio v3 inside Next.js
+# Note, we have released a [new version of `next-sanity` with support for embedding Studio v3](https://github.com/sanity-io/next-sanity#next-sanitystudio-dev-preview) inside Next.js
 
 > Please use that instead of using this repo as a guideline of how to do it. :bow:
 
